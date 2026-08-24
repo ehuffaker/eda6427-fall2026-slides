@@ -1,0 +1,2051 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="module_2_lecture_slides_files/libs/clipboard/clipboard.min.js"></script>
+<script src="module_2_lecture_slides_files/libs/quarto-html/tabby.min.js"></script>
+<script src="module_2_lecture_slides_files/libs/quarto-html/popper.min.js"></script>
+<script src="module_2_lecture_slides_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="module_2_lecture_slides_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="module_2_lecture_slides_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="module_2_lecture_slides_files/libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.37">
+
+  <title>Module 2: Multivariate Regression II</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="module_2_lecture_slides_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="module_2_lecture_slides_files/libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="module_2_lecture_slides_files/libs/revealjs/dist/theme/quarto-0427d8d92a431aa6a6430e53ec02a470.css">
+  <link rel="stylesheet" href="custom.css">
+  <link href="module_2_lecture_slides_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="module_2_lecture_slides_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="module_2_lecture_slides_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="module_2_lecture_slides_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+
+<section id="section" class="slide level2 title-slide center" data-runner="">
+<h2></h2>
+<div class="center">
+<h1>
+Multivariate Regression II
+</h1>
+<div class="accent">
+
+</div>
+<div class="subtitle">
+Binary outcomes and effects that depend on context
+</div>
+<div class="course-label">
+EDA6427 &nbsp;|&nbsp; Applied Education Policy Research
+</div>
+</div>
+<aside class="notes">
+<p>Welcome to Module 2, Multivariate Regression II. This module builds directly on the regression work you did last term and on the review we ran at the Saturday session. You already know how to run a regression, read the output, and build a model with several predictors. We extend that in two directions, then spend time on the numbers at the bottom of the output that we have mostly skipped over.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="beyond-how-much" class="slide level2" data-runner="Module 2">
+<h2>Beyond “How Much?”</h2>
+<div class="title-rule">
+
+</div>
+<div class="slide-lead">
+Every regression we have run predicts a continuous score: how high a child scores on reading or math. Many questions in education are not about how much. They are about whether.
+</div>
+<div class="note-box">
+<ul>
+<li>
+Does this child meet reading proficiency?
+</li>
+<li>
+Does this family choose private school?
+</li>
+<li>
+Is a child identified for special services?
+</li>
+<li>
+Does full-day kindergarten narrow the achievement gap?
+</li>
+</ul>
+</div>
+<div class="cfu-frame" style="margin-top:22px;">
+<div class="cfu-eyebrow">
+PlayPosit Prompt
+</div>
+<div class="cfu-foot" style="font-size:0.62em;">
+Think of an education policy question where the answer is yes or no. What would you need to measure?
+</div>
+</div>
+<aside class="notes">
+<p>So far every regression has predicted a continuous score. But a great many questions in education are threshold questions. Does this child meet proficiency. Does this family choose private school. Is a child identified for services. Those outcomes are yes or no.</p>
+<p>Before we go further, think of a question from your own setting where the answer is yes or no, and what you would need to measure to answer it.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="where-we-are" class="slide level2" data-runner="Module 2">
+<h2>Where We Are</h2>
+<div class="title-rule">
+
+</div>
+<div class="q-roadmap tight">
+<div class="q-rm-row">
+<div class="q-rm-num">
+1
+</div>
+<div class="q-rm-text">
+<strong>Last term</strong>: correlation, bivariate regression, and multiple regression with controls. Continuous outcomes throughout.
+</div>
+</div>
+<div class="q-rm-row">
+<div class="q-rm-num">
+2
+</div>
+<div class="q-rm-text">
+<strong>Module 1</strong>: regression review with statistical controls, reading a published results table, and data management.
+</div>
+</div>
+<div class="q-rm-row">
+<div class="q-rm-num">
+3
+</div>
+<div class="q-rm-text">
+<strong>Today</strong>: binary outcomes, interaction terms, model fit statistics, and building regression tables.
+</div>
+</div>
+</div>
+<div class="closing-line">
+The <code>regress</code> command does not change. The questions it can answer do.
+</div>
+<aside class="notes">
+<p>A quick orientation. Last term you worked through correlation, bivariate regression, and multiple regression with controls, always with a continuous outcome. At the Saturday session we reviewed regression with controls and read a results table from a published paper.</p>
+<p>Today extends that in three ways: outcomes that are yes or no, effects that differ across groups, and the fit statistics Stata has been printing all along.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-1" class="slide level2 divider" data-runner="">
+<h2></h2>
+<div class="divider-content">
+<div class="divider-eyebrow">
+Part 1
+</div>
+<div class="divider-title">
+Binary Outcomes
+</div>
+<div class="divider-rule">
+
+</div>
+</div>
+</section>
+<section id="from-scores-to-decisions" class="slide level2" data-runner="Part 1 · Binary Outcomes">
+<h2>From Scores to Decisions</h2>
+<div class="title-rule">
+
+</div>
+<div class="slide-lead">
+A continuous score tells you where a child falls on a scale. A decision asks whether a child crosses a threshold.
+</div>
+<ul>
+<li>
+Proficiency cut scores determine who receives intervention
+</li>
+<li>
+Eligibility thresholds determine who receives services
+</li>
+<li>
+Graduation is binary: the student completed the requirements or did not
+</li>
+</ul>
+<div class="note-box">
+<p>We can still use <code>regress</code> to predict a yes/no outcome. The interpretation changes. The command does not.</p>
+</div>
+<aside class="notes">
+<p>Administrative decisions are usually threshold decisions. A cut score determines who gets intervention. An eligibility threshold determines who gets services. Graduation is binary.</p>
+<p>The useful thing here is that you do not need a new command. You run regress exactly as before. What changes is how you read the coefficients.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="creating-a-binary-outcome-variable" class="slide level2" data-runner="Part 1 · Binary Outcomes">
+<h2>Creating a Binary Outcome Variable</h2>
+<div class="title-rule">
+
+</div>
+<div class="columns">
+<div class="column" style="width:52%;">
+<p><img data-src="images/proficient_bar.png"></p>
+</div><div class="column" style="width:48%;">
+<pre class="stata-out">gen proficient = (x1rscalk1 &gt;= 40) if !missing(x1rscalk1)
+
+tab proficient</pre>
+<div style="margin-top:18px; font-size:0.68em; line-height:1.5;">
+<p>The variable <code>proficient</code> equals:</p>
+<ul>
+<li>
+<strong>1</strong> if the child scored 40 or above
+</li>
+<li>
+<strong>0</strong> if the child scored below 40
+</li>
+</ul>
+<p>About <strong>29 percent</strong> of fall kindergartners meet this threshold.</p>
+</div>
+</div></div>
+<aside class="notes">
+<p>First we need a binary variable to predict. This line creates one: proficient equals 1 when the fall reading score is 40 or above, and 0 when it is below. The if not-missing condition keeps children with no score out of both categories rather than counting them as zeros. That detail matters, and it is a common error.</p>
+<p>About 29 percent of children meet this threshold: 4,516 of the 15,669 with a reading score.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="the-linear-probability-model" class="slide level2" data-runner="Part 1 · Binary Outcomes">
+<h2>The Linear Probability Model</h2>
+<div class="title-rule">
+
+</div>
+<div class="slide-lead">
+When we run <code>regress</code> with a 0/1 outcome, we get what is called a <strong>linear probability model</strong>.
+</div>
+<pre class="stata-out">regress proficient x12sesl female fullday</pre>
+<div class="note-box">
+<p>Each coefficient is now the change in the <strong>probability</strong> of the outcome, in percentage points, for a one-unit increase in the predictor.</p>
+<p>If the SES coefficient is 0.18: a one-standard-deviation increase in SES is associated with an 18 percentage-point increase in the probability of reading proficiency.</p>
+</div>
+<aside class="notes">
+<p>Same command, binary outcome. The result has a name: the linear probability model.</p>
+<p>The interpretation is where the work is. A coefficient is no longer a change in score points. It is a change in the probability of the outcome, expressed in percentage points. A coefficient of 0.18 means 18 percentage points, not 18 percent and not 0.18 points.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="reading-the-lpm-output" class="slide level2" data-runner="Part 1 · Binary Outcomes">
+<h2>Reading the LPM Output</h2>
+<div class="title-rule">
+
+</div>
+<pre class="stata-out">      Source |       SS           df       MS      Number of obs   =    13,444
+-------------+----------------------------------   F(3, 13440)     =    526.48
+       Model |  295.103372         3  98.3677905   Prob &gt; F        =    0.0000
+    Residual |  2511.12416    13,440  .186839596   R-squared       =    0.1052
+-------------+----------------------------------   Adj R-squared   =    0.1050
+       Total |  2806.22754    13,443  .208750096   Root MSE        =    .43225
+
+------------------------------------------------------------------------------
+  proficient | Coefficient  Std. err.      t    P&gt;|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     <span class="hl">x12sesl |    .181676</span>   .0046565    39.02   0.000     .1725486    .1908034
+      female |   .0418761   .0074592     5.61   0.000     .0272551    .0564971
+     fullday |   .0147892   .0098672     1.50   0.134    -.0045519    .0341303
+       _cons |   .2718483   .0096359    28.21   0.000     .2529605     .290736
+------------------------------------------------------------------------------</pre>
+<div class="deck-note">
+The outcome is 0/1, so every coefficient is in percentage points rather than score points.
+</div>
+<aside class="notes">
+<p>This is the output. It looks exactly like every regression you have read, because it is one. The only difference is the outcome.</p>
+<p>SES is 0.182. Read that as 18 percentage points. Female is 0.042, about 4 percentage points. Full-day is 0.015 with a p-value of 0.134, so we cannot distinguish it from zero.</p>
+<p>The constant, 0.272, is the predicted probability for the reference child: male, half-day, average SES.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="interpreting-the-coefficients" class="slide level2" data-runner="Part 1 · Binary Outcomes">
+<h2>Interpreting the Coefficients</h2>
+<div class="title-rule">
+
+</div>
+<div class="note-box" style="margin-top:10px;">
+<p><strong>SES = 0.18***</strong><br> A one-standard-deviation increase in SES is associated with an 18 percentage-point increase in the probability of proficiency.</p>
+</div>
+<div class="note-box" style="margin-top:14px;">
+<p><strong>Female = 0.04***</strong><br> Girls are about 4 percentage points more likely to be proficient than boys, holding SES and program type constant.</p>
+</div>
+<div class="note-box" style="margin-top:14px; background:#F7F9F9; border-color:#CFD8DC;">
+<p><strong>Full-day = 0.01 (not significant)</strong><br> Full-day kindergarten is not distinguishable from zero once SES and gender are held constant.</p>
+</div>
+<aside class="notes">
+<p>Three coefficients, three sentences.</p>
+<p>SES: 18 percentage points per standard deviation. That is a large association.</p>
+<p>Female: about 4 percentage points, holding the other two constant.</p>
+<p>Full-day: 1.5 percentage points with a p-value of 0.134. Grey box, because we cannot rule out zero. Note that we say it is not distinguishable from zero, not that it has no effect.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-2" class="slide level2 cfu-slide" data-runner="PlayPosit Question 1">
+<h2></h2>
+<div class="cfu-frame">
+<div class="cfu-eyebrow">
+PlayPosit Question 1
+</div>
+<h2 class="cfu-prompt">
+A study finds that having a college-educated parent is associated with a 0.15 increase in the probability of kindergarten reading proficiency, estimated with a linear probability model. What does this mean?
+</h2>
+<ol class="cfu-options" type="A">
+<li>
+Children of college-educated parents score 15 points higher on reading
+</li>
+<li>
+Children of college-educated parents are 15 percentage points more likely to be proficient
+</li>
+<li>
+College-educated parents are 15% of the sample
+</li>
+<li>
+The coefficient is not statistically significant because it is less than 1
+</li>
+</ol>
+</div>
+<aside class="notes">
+<p>A study finds that having a college-educated parent is associated with a 0.15 increase in the probability of kindergarten reading proficiency, from a linear probability model. What does that mean?</p>
+<p>The answer is B. Children of college-educated parents are 15 percentage points more likely to be proficient. A is the continuous-score reading, which would be right for an ordinary regression but not this one. C describes the sample composition, which the coefficient says nothing about. D is wrong because significance comes from the p-value, not the size of the number.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="what-lpms-can-and-cannot-do" class="slide level2" data-runner="Part 1 · Binary Outcomes">
+<h2>What LPMs Can and Cannot Do</h2>
+<div class="title-rule">
+
+</div>
+<div style="font-size:0.78em; line-height:1.6;">
+<strong style="color:var(--gcs-green-deep);">Strengths</strong>
+<ul>
+<li>
+Uses the <code>regress</code> command you already know
+</li>
+<li>
+Coefficients are easy to interpret, in percentage points
+</li>
+<li>
+Widely used in education, economics, and policy research
+</li>
+</ul>
+<strong style="color:var(--uf-orange);">Limitation</strong>
+<ul>
+<li>
+The model can predict probabilities below 0 or above 1
+</li>
+<li>
+A very high-SES child might get a predicted probability of 1.05, which is not a probability
+</li>
+</ul>
+</div>
+<div class="deck-note">
+Logistic regression handles this by forcing predictions between 0 and 1. You will see it in published work. We do not estimate it in this course, and for most applied purposes the linear probability model is both acceptable and easier to read.
+</div>
+<aside class="notes">
+<p>Strengths first: same command, interpretable coefficients, and it is genuinely common in published education research.</p>
+<p>The limitation is real. Because the model fits a straight line, it can predict a probability above 1 or below 0 for children at the extremes. That is a defect of the model, not of the data.</p>
+<p>Logistic regression solves it by constraining predictions to the 0 to 1 range. You will encounter it when you read research. We are not estimating it here. When you see it, know that it is answering the same question through a different functional form.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-3" class="slide level2 divider" data-runner="">
+<h2></h2>
+<div class="divider-content">
+<div class="divider-eyebrow">
+Part 2
+</div>
+<div class="divider-title">
+Interaction Terms
+</div>
+<div class="divider-rule">
+
+</div>
+</div>
+</section>
+<section id="a-result-from-last-term" class="slide level2" data-runner="Part 2 · Interactions">
+<h2>A Result From Last Term</h2>
+<div class="title-rule">
+
+</div>
+<div class="columns">
+<div class="column" style="width:52%;">
+<p><img data-src="images/ttest_callback.png"></p>
+</div><div class="column" style="width:48%;">
+<div style="font-size:0.72em; line-height:1.55; margin-top:20px;">
+<p>In the t-test module last term, we compared reading scores by kindergarten program type. Half-day children scored <strong>higher</strong>: 38.37 against 37.02, a difference of 1.35 points with p &lt; .001.</p>
+<p>That result was surprising. Does half-day kindergarten produce better readers?</p>
+<p>We flagged at the time that this was unlikely to be causal, without the tools to look further.</p>
+<p><strong style="color:var(--gcs-green-deep);">Now we have them.</strong></p>
+</div>
+</div></div>
+<aside class="notes">
+<p>You have seen this comparison before. In the t-test module last term we compared fall reading scores for half-day and full-day kindergartners, and half-day children scored higher: 38.37 against 37.02, a gap of 1.35 points, highly significant with about 14,900 children.</p>
+<p>That is a strange result if you read it as an effect of the program. We said at the time it was probably not causal. Now we can show why.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="the-selection-problem" class="slide level2" data-runner="Part 2 · Interactions">
+<h2>The Selection Problem</h2>
+<div class="title-rule">
+
+</div>
+<div class="columns">
+<div class="column" style="width:52%;">
+<p><img data-src="images/selection_bar.png"></p>
+</div><div class="column" style="width:48%;">
+<div style="font-size:0.72em; line-height:1.55; margin-top:10px;">
+<p>Full-day and half-day programs serve different populations. About <strong>13.7 percent</strong> of half-day children are in poverty, against <strong>27.5 percent</strong> of full-day children.</p>
+<p>Higher-SES families are more likely to choose half-day programs, so the raw comparison confounds program type with family background.</p>
+<p>Holding SES constant changes the picture, which is what the next few slides do.</p>
+</div>
+</div></div>
+<aside class="notes">
+<p>Here is the reason. The two groups are not comparable. Poverty rates are twice as high in full-day programs: 27.5 percent against 13.7.</p>
+<p>So the raw difference is partly a comparison of program types and partly a comparison of family circumstances. This is the selection problem you worked on last term, in a concrete case.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="what-if-the-effect-is-not-the-same-for-everyone" class="slide level2" data-runner="Part 2 · Interactions">
+<h2>What If the Effect Is Not the Same for Everyone?</h2>
+<div class="title-rule">
+
+</div>
+<div class="slide-lead">
+Holding SES constant, full-day kindergarten looks slightly positive on average. But does it do the same thing for every child?
+</div>
+<div style="font-size:0.78em; line-height:1.6;">
+<p>
+Full-day programs might matter more for children from lower-SES households, where additional hours of instruction could partly substitute for resources available at home.
+</p>
+<p>
+Or the association might be the same across the SES range, or absent entirely.
+</p>
+</div>
+<div class="note-box">
+<p>An <strong>interaction term</strong> lets us test whether the association between one variable and the outcome depends on the value of another variable.</p>
+</div>
+<aside class="notes">
+<p>An average effect can hide a great deal. A program that helps one group and does nothing for another can produce a small average that describes no actual child.</p>
+<p>There is a plausible story here: extra hours of school might matter more for children with fewer academic resources at home. There is an equally plausible story where it makes no difference. The point is that we can test it rather than speculate.</p>
+<p>The tool is the interaction term.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="what-is-an-interaction" class="slide level2" data-runner="Part 2 · Interactions">
+<h2>What Is an Interaction?</h2>
+<div class="title-rule">
+
+</div>
+
+<img data-src="images/interaction_concept.png" class="r-stretch"><div class="closing-line">
+If the lines are parallel, there is no interaction. If the slopes differ, there is.
+</div>
+<aside class="notes">
+<p>Two pictures. On the left, both groups have the same SES slope. Full-day children sit slightly higher everywhere, and the gap between the lines is constant. That is a main effect with no interaction.</p>
+<p>On the right, the slopes differ. The gap is large at low SES and closes as SES rises. The full-day difference depends on where a child sits in the SES distribution. That is an interaction.</p>
+<p>The whole test comes down to whether the lines are parallel.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="the-interaction-in-an-equation" class="slide level2" data-runner="Part 2 · Interactions">
+<h2>The Interaction in an Equation</h2>
+<div class="title-rule">
+
+</div>
+<div style="font-size:0.74em; line-height:1.7;">
+<p><strong style="color:var(--gcs-green-deep);">Without an interaction</strong></p>
+<pre class="stata-out">Reading = constant + b₁(Full-Day) + b₂(SES) + error</pre>
+<div class="deck-note" style="margin-top:6px;">
+The SES slope, b₂, is the same for full-day and half-day children.
+</div>
+<p><strong style="color:var(--uf-orange);">With an interaction</strong></p>
+<pre class="stata-out">Reading = constant + b₁(Full-Day) + b₂(SES) + b₃(Full-Day × SES) + error</pre>
+<ul style="margin-top:10px;">
+<li>
+<strong>b₂</strong> is the SES slope when Full-Day = 0, that is, for half-day children
+</li>
+<li>
+<strong>b₂ + b₃</strong> is the SES slope when Full-Day = 1
+</li>
+<li>
+<strong>b₃</strong> is how much the SES slope changes for full-day children
+</li>
+</ul>
+</div>
+<aside class="notes">
+<p>The algebra is worth seeing once.</p>
+<p>Without the interaction there is one SES slope, b two, and it applies to everyone.</p>
+<p>Adding the product term gives b three. Now the SES slope is b two for half-day children, because the product is zero when full-day is zero. For full-day children the product equals SES, so the slope becomes b two plus b three.</p>
+<p>b three is the difference between the two slopes. That is the number the model is testing.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="creating-the-interaction-term" class="slide level2" data-runner="Part 2 · Interactions">
+<h2>Creating the Interaction Term</h2>
+<div class="title-rule">
+
+</div>
+<pre class="stata-out">* Create the product of fullday and SES
+gen fullday_ses = fullday * x12sesl
+
+* Run the interaction model
+regress x1rscalk1 fullday x12sesl fullday_ses</pre>
+<div style="font-size:0.72em; line-height:1.55; margin-top:20px;">
+<p>
+The interaction term is the product of the two variables.
+</p>
+<p>
+When <code>fullday</code> is 0, the product is 0, so the interaction drops out and the SES coefficient alone gives the SES slope.
+</p>
+<p>
+When <code>fullday</code> is 1, the product equals SES, so the interaction coefficient is added to the SES coefficient.
+</p>
+</div>
+<div class="deck-note">
+Stata can build this automatically with <code>fullday##c.x12sesl</code>. Creating the variable yourself keeps the mechanics visible, which is why we do it this way first.
+</div>
+<aside class="notes">
+<p>Two lines. Generate the product, then put all three terms in the regression.</p>
+<p>Work through what the product does. For a half-day child, fullday is zero, so the product is zero no matter what SES is, and the interaction contributes nothing. For a full-day child, fullday is one, so the product is just SES, and the interaction coefficient gets added to the SES slope.</p>
+<p>There is a shortcut syntax with the double hash. Use it once you are comfortable. Building the variable by hand makes it obvious what is being estimated.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="the-model-without-the-interaction" class="slide level2" data-runner="Part 2 · Interactions">
+<h2>The Model Without the Interaction</h2>
+<div class="title-rule">
+
+</div>
+<div class="slide-lead" style="margin-bottom:0.7em;">
+First the main-effects model, with no interaction term:
+</div>
+<pre class="stata-out">regress x1rscalk1 fullday x12sesl
+
+------------------------------------------------------------------------------
+   x1rscalk1 | Coefficient  Std. err.      t    P&gt;|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     <span class="hl">fullday |   .2799643   .2035946     1.38   0.169</span>    -.1191097    .6790382
+     <span class="hl">x12sesl |   4.782668   .0960835    49.78   0.000</span>     4.594331    4.971005
+       _cons |   37.51417   .1835635   204.37   0.000     37.15436    37.87398
+------------------------------------------------------------------------------
+                                        R-squared = 0.1581      N = 13,444</pre>
+<div class="closing-line">
+This model assumes the SES slope is the same for full-day and half-day children. Is it?
+</div>
+<aside class="notes">
+<p>Before adding the interaction, here is the model without it.</p>
+<p>Full-day is 0.28 with a p-value of 0.169. Once SES is held constant, the negative raw difference is gone, but we cannot distinguish this from zero either. SES is 4.78 and highly significant.</p>
+<p>Hold onto both numbers. They change on the next slide, and the change is the point.</p>
+<p>This model forces one SES slope on both groups. Whether that is a reasonable assumption is exactly what the interaction tests.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="adding-the-interaction" class="slide level2" data-runner="Part 2 · Interactions">
+<h2>Adding the Interaction</h2>
+<div class="title-rule">
+
+</div>
+<pre class="stata-out">      Source |       SS           df       MS      Number of obs   =    13,444
+-------------+----------------------------------   F(3, 13440)     =    845.79
+       Model |  201691.461         3  67230.4869   Prob &gt; F        =    0.0000
+    Residual |  1068326.72    13,440  79.4885954   R-squared       =    0.1588
+-------------+----------------------------------   Adj R-squared   =    0.1586
+       Total |  1270018.18    13,443  94.4743125   Root MSE        =    8.9156
+
+------------------------------------------------------------------------------
+   x1rscalk1 | Coefficient  Std. err.      t    P&gt;|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     <span class="hl">fullday |   .4407382   .2088493     2.11   0.035</span>     .0313643    .8501121
+     <span class="hl">x12sesl |   5.513656    .233905    23.57   0.000</span>     5.055169    5.972143
+ <span class="hl">fullday_ses |  -.8792311   .2565287    -3.43   0.001</span>    -1.382063   -.3763988
+       _cons |    37.3382   .1905377   195.96   0.000     36.96472    37.71168
+------------------------------------------------------------------------------</pre>
+<aside class="notes">
+<p>Now compare. Full-day moved from 0.28 to 0.44 and is now significant at the .05 level. SES moved from 4.78 to 5.51. And the interaction term is negative 0.88, significant at the .001 level.</p>
+<p>Every one of those numbers changed because the previous model was averaging two different SES slopes into one. The next slide takes the three coefficients apart.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="reading-the-interaction-output" class="slide level2" data-runner="Part 2 · Interactions">
+<h2>Reading the Interaction Output</h2>
+<div class="title-rule">
+
+</div>
+<div class="note-box" style="margin-top:10px;">
+<p><strong>fullday = 0.44*</strong><br> The full-day difference for a child at <strong>average</strong> SES, where SES = 0. About half a reading point.</p>
+</div>
+<div class="note-box" style="margin-top:14px;">
+<p><strong>x12sesl = 5.51***</strong><br> The SES slope for <strong>half-day</strong> children, where <code>fullday</code> = 0. Each standard deviation of SES predicts 5.5 more reading points.</p>
+</div>
+<div class="note-box" style="margin-top:14px; background:var(--uf-orange-bg); border-color:#F5B7A6;">
+<p><strong>fullday_ses = −0.88***</strong><br> How much the SES slope <strong>changes</strong> for full-day children. The slope is 0.88 points less steep, so the SES gap is narrower in full-day programs.</p>
+</div>
+<aside class="notes">
+<p>Three coefficients, and each one answers a different question.</p>
+<p>Full-day, 0.44, is not the full-day effect in general. It is the full-day difference for a child at average SES, because SES is standardized and zero is the mean.</p>
+<p>The SES coefficient, 5.51, is not the SES slope in general either. It is the slope for half-day children.</p>
+<p>The interaction, negative 0.88, is the difference between the two slopes. Because it is negative, the SES slope is flatter for full-day children, meaning the gap between low- and high-SES children is smaller in full-day programs.</p>
+<p>Always compute the implied slopes. Never stop at the three raw coefficients.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-4" class="slide level2 cfu-slide" data-runner="PlayPosit Question 2">
+<h2></h2>
+<div class="cfu-frame">
+<div class="cfu-eyebrow">
+PlayPosit Question 2
+</div>
+<h2 class="cfu-prompt">
+The SES slope for half-day children is 5.51. The interaction term is −0.88.<br><br>What is the SES slope for full-day children?
+</h2>
+<ol class="cfu-options" type="A">
+<li>
+5.51 + 0.88 = 6.39
+</li>
+<li>
+5.51 + (−0.88) = 4.63
+</li>
+<li>
+−0.88, because the interaction replaces the main effect
+</li>
+<li>
+5.51 × −0.88 = −4.85
+</li>
+</ol>
+</div>
+<aside class="notes">
+<p>The SES slope for half-day children is 5.51 and the interaction is negative 0.88. What is the slope for full-day children?</p>
+<p>The answer is B: 5.51 plus negative 0.88, which is 4.63. You add the interaction to the main effect. C is wrong because the interaction modifies the slope rather than replacing it, and D is wrong because these terms add, they do not multiply.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="visualizing-the-interaction" class="slide level2" data-runner="Part 2 · Interactions">
+<h2>Visualizing the Interaction</h2>
+<div class="title-rule">
+
+</div>
+
+<img data-src="images/interaction_lines.png" class="r-stretch"><div class="closing-line">
+The lines are not parallel. The SES slope is 5.51 in half-day programs and 4.63 in full-day programs.
+</div>
+<aside class="notes">
+<p>This is the same model as a picture, and it is worth always drawing one.</p>
+<p>Two lines, one per group, plotted across the SES range. They are not parallel, which is what the significant interaction told us.</p>
+<p>At low SES, full-day children are predicted about 1.3 points higher. At average SES the difference is about 0.4. At high SES the lines have crossed and full-day children are slightly lower.</p>
+<p>Read plainly: the SES gap in reading is narrower among full-day children. Say it descriptively. These are associations from observational data, and children were not assigned to programs.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-5" class="slide level2 cfu-slide" data-runner="PlayPosit Question 3">
+<h2></h2>
+<div class="cfu-frame">
+<div class="cfu-eyebrow">
+PlayPosit Question 3
+</div>
+<h2 class="cfu-prompt">
+Looking at the figure, which group shows the largest full-day difference?
+</h2>
+<ol class="cfu-options" type="A">
+<li>
+High-SES children, because they score highest overall
+</li>
+<li>
+Average-SES children, because the lines cross near the middle
+</li>
+<li>
+Low-SES children, because the vertical gap between the lines is widest at the left
+</li>
+<li>
+The difference is the same at every SES level, because the lines are parallel
+</li>
+</ol>
+</div>
+<aside class="notes">
+<p>Looking at the figure, which group shows the largest full-day difference?</p>
+<p>The answer is C, low-SES children. The question is about the vertical distance between the two lines, and that distance is widest at the left side of the figure. A confuses the height of the lines with the gap between them, which is the most common error in reading these plots. D describes the other panel from the concept figure.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="writing-up-an-interaction" class="slide level2" data-runner="Part 2 · Interactions">
+<h2>Writing Up an Interaction</h2>
+<div class="title-rule">
+
+</div>
+<div class="note-box" style="font-size:0.62em;">
+<p>After controlling for socioeconomic status, full-day kindergarten was associated with a modest increase in reading scores for the average child (b = 0.44, p = .035).</p>
+<p>The relationship between SES and reading differed by program type. The SES slope was 5.51 points per standard deviation for half-day students and 4.63 for full-day students (interaction b = −0.88, p = .001).</p>
+<p>This pattern suggests that the SES gap in early reading is narrower in full-day programs.</p>
+</div>
+<div style="font-size:0.68em; margin-top:18px;">
+<strong>What a good interaction write-up includes:</strong>
+<ul>
+<li>
+Both the main effects and the interaction
+</li>
+<li>
+The implied slopes for each group, computed for the reader
+</li>
+<li>
+The direction stated in plain language
+</li>
+</ul>
+</div>
+<aside class="notes">
+<p>Here is what this looks like written up. Notice three things.</p>
+<p>It reports the main effects and the interaction, not just the interaction. It gives the reader both implied slopes rather than making them do the arithmetic. And it states the direction in a sentence someone can act on.</p>
+<p>Notice also what it does not say. It does not say full-day kindergarten narrows the gap. It says the gap is narrower in full-day programs. That distinction between describing a pattern and claiming an effect is the one to protect.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-6" class="slide level2 divider" data-runner="">
+<h2></h2>
+<div class="divider-content">
+<div class="divider-eyebrow">
+Part 3
+</div>
+<div class="divider-title">
+Model Fit
+</div>
+<div class="divider-rule">
+
+</div>
+</div>
+</section>
+<section id="how-well-does-the-model-fit" class="slide level2" data-runner="Part 3 · Model Fit">
+<h2>How Well Does the Model Fit?</h2>
+<div class="title-rule">
+
+</div>
+<div class="slide-lead">
+Every regression you have run printed these numbers at the top right. We have mostly read past them. They answer a different question from the coefficients.
+</div>
+<div style="font-size:0.74em; line-height:1.6;">
+<ul>
+<li>
+A <strong>coefficient</strong> answers: how is this predictor related to the outcome?
+</li>
+<li>
+A <strong>fit statistic</strong> answers: how much of the outcome does the whole model account for?
+</li>
+</ul>
+</div>
+<div class="note-box">
+<p>A model can contain a highly significant predictor and still account for very little of the variation. Significance and fit are separate questions, and reporting one without the other gives an incomplete picture.</p>
+</div>
+<aside class="notes">
+<p>Now the numbers in the top-right corner of every regression you have run.</p>
+<p>The distinction to hold is that coefficients and fit statistics answer different questions. A coefficient tells you how one predictor relates to the outcome. A fit statistic tells you how much of the outcome the whole model accounts for.</p>
+<p>These can point in different directions, and we will see a case in a moment where they do.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="r-squared-and-adjusted-r-squared" class="slide level2" data-runner="Part 3 · Model Fit">
+<h2>R-Squared and Adjusted R-Squared</h2>
+<div class="title-rule">
+
+</div>
+<div style="font-size:0.74em; line-height:1.6;">
+<p>
+<strong>R-squared</strong> is the share of variation in the outcome accounted for by the model. Our interaction model has R-squared of 0.1588, so it accounts for about 16 percent of the variation in reading scores.
+</p>
+<p>
+R-squared has one property worth knowing: <strong>it can only rise when you add a predictor.</strong> Even a variable with nothing to contribute will nudge it upward.
+</p>
+<p>
+<strong>Adjusted R-squared</strong> applies a penalty for each predictor. It rises only when a new variable earns its place, and it can fall.
+</p>
+</div>
+<div class="note-box">
+<p>A low R-squared does not mean the relationship is unimportant. It means other things also matter, which is nearly always true of educational outcomes.</p>
+</div>
+<aside class="notes">
+<p>R-squared is the share of variation the model accounts for. Sixteen percent for our interaction model, which leaves 84 percent to everything we did not measure.</p>
+<p>The property that matters: R-squared can only go up when you add a variable. Add a column of random numbers and it will rise a little. So a rising R-squared by itself is not evidence that a model improved.</p>
+<p>Adjusted R-squared charges a penalty per predictor. It goes up only if the new variable contributes more than that penalty, and it can go down. When someone asks whether adding variables improved the model, adjusted R-squared is the more honest number.</p>
+<p>And say this plainly: a low R-squared is normal in education research. Human outcomes have many causes.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="the-f-statistic" class="slide level2" data-runner="Part 3 · Model Fit">
+<h2>The F-Statistic</h2>
+<div class="title-rule">
+
+</div>
+<div class="slide-lead">
+The <strong>F-statistic</strong> tests one question: taken together, do the predictors account for more variation than chance would produce?
+</div>
+<table class="fin-table">
+<tbody><tr>
+<th>
+</th>
+<th>
+Full-day only
+</th>
+<th>
+Add SES
+</th>
+<th>
+Add interaction
+</th>
+</tr>
+<tr>
+<td class="fl">
+Observations
+</td>
+<td>
+14,896
+</td>
+<td>
+13,444
+</td>
+<td>
+13,444
+</td>
+</tr>
+<tr>
+<td class="fl">
+R-squared
+</td>
+<td>
+0.0029
+</td>
+<td>
+0.1581
+</td>
+<td>
+0.1588
+</td>
+</tr>
+<tr>
+<td class="fl">
+Adjusted R-squared
+</td>
+<td>
+0.0028
+</td>
+<td>
+0.1579
+</td>
+<td>
+0.1586
+</td>
+</tr>
+<tr>
+<td class="fl">
+F-statistic
+</td>
+<td>
+42.60
+</td>
+<td>
+1261.80
+</td>
+<td>
+845.79
+</td>
+</tr>
+<tr>
+<td class="fl">
+Root MSE
+</td>
+<td>
+9.588
+</td>
+<td>
+8.919
+</td>
+<td>
+8.916
+</td>
+</tr>
+</tbody></table>
+<div class="closing-line">
+Between the second and third models, R-squared rises while F falls. Both are correct.
+</div>
+<aside class="notes">
+<p>The F-statistic asks whether the predictors together account for more than chance would.</p>
+<p>Now look across the row. F is 42.6 with full-day alone, jumps to 1,262 when SES enters, and then falls to 846 when the interaction is added, even though R-squared went up.</p>
+<p>That happens because F depends on the number of predictors as well as the fit. Adding a term that contributes very little spreads the explained variation across more degrees of freedom, so F falls. A larger F does not mean a better model.</p>
+<p>Look at adjusted R-squared in the same two columns: 0.1579 and 0.1586. Barely moved. The interaction is a real and significant finding about who the association differs for, and it adds almost nothing to how much of reading we can account for. Both statements are true at once, and a good write-up says both.</p>
+<p>Root MSE is the typical prediction error in the outcome’s own units, about 8.9 reading points here. It is often the most concrete of the four.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-7" class="slide level2 cfu-slide" data-runner="PlayPosit Question 4">
+<h2></h2>
+<div class="cfu-frame">
+<div class="cfu-eyebrow">
+PlayPosit Question 4
+</div>
+<h2 class="cfu-prompt">
+A researcher adds four control variables to a model. R-squared rises from 0.31 to 0.33, and adjusted R-squared falls from 0.30 to 0.29.<br><br>What is the most reasonable conclusion?
+</h2>
+<ol class="cfu-options" type="A">
+<li>
+The model improved, because R-squared went up
+</li>
+<li>
+The new variables added little beyond the penalty for including them
+</li>
+<li>
+The new variables are all statistically significant
+</li>
+<li>
+The model is now 33% accurate
+</li>
+</ol>
+</div>
+<aside class="notes">
+<p>R-squared rises from 0.31 to 0.33 while adjusted R-squared falls from 0.30 to 0.29. What is the most reasonable conclusion?</p>
+<p>The answer is B. R-squared went up because R-squared always goes up when you add variables. Adjusted R-squared fell, which tells you the four variables did not contribute enough to cover the cost of including them.</p>
+<p>A takes the rise in R-squared at face value, which is the error this question is about. C is wrong because fit statistics say nothing about individual coefficients. D is the “accuracy” misreading: R-squared is the share of variance accounted for, not a percentage of correct predictions.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-8" class="slide level2 divider" data-runner="">
+<h2></h2>
+<div class="divider-content">
+<div class="divider-eyebrow">
+Part 4
+</div>
+<div class="divider-title">
+Regression Tables
+</div>
+<div class="divider-rule">
+
+</div>
+</div>
+</section>
+<section id="from-producer-to-consumer" class="slide level2" data-runner="Part 4 · Regression Tables">
+<h2>From Producer to Consumer</h2>
+<div class="title-rule">
+
+</div>
+<div class="slide-lead">
+So far you have produced every regression table you have read. You ran the code, saw the output, and interpreted the results.
+</div>
+<div style="font-size:0.78em; line-height:1.6;">
+<p>
+In practice you will also read tables produced by other researchers, in journal articles, evaluation reports, and policy briefs.
+</p>
+<p>
+The skills are the same. The Stata output is not there to guide you.
+</p>
+</div>
+<aside class="notes">
+<p>One more shift. Every table you have read in this course, you produced. You know what the variables are because you chose them.</p>
+<p>Reading someone else’s table is the same work without the scaffolding. You get a table and a footnote and you have to reconstruct what was estimated. We did a version of this at the Saturday session with the Claessens paper. Here we do it with a model-building sequence.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="a-regression-table-from-a-study" class="slide level2" data-runner="Part 4 · Regression Tables">
+<h2>A Regression Table from a Study</h2>
+<div class="title-rule">
+
+</div>
+<table class="paper-table">
+<tbody><tr>
+<th style="text-align:left;">
+&nbsp;
+</th>
+<th>
+Model 1
+</th>
+<th>
+Model 2
+</th>
+<th>
+Model 3
+</th>
+</tr>
+<tr>
+<td style="text-align:left;">
+SES
+</td>
+<td>
+5.96***<br>(0.10)
+</td>
+<td>
+5.74***<br>(0.12)
+</td>
+<td>
+6.10***<br>(0.16)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Female
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+−0.75***<br>(0.19)
+</td>
+<td>
+−0.73***<br>(0.19)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Non-English home language
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+−1.89***<br>(0.26)
+</td>
+<td>
+−1.89***<br>(0.26)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Disability
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+−2.53***<br>(0.24)
+</td>
+<td>
+−2.51***<br>(0.24)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Female × SES
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+−0.73**<br>(0.23)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Constant
+</td>
+<td>
+31.00***<br>(0.08)
+</td>
+<td>
+32.48***<br>(0.15)
+</td>
+<td>
+32.47***<br>(0.15)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Observations
+</td>
+<td>
+14,041
+</td>
+<td>
+11,335
+</td>
+<td>
+11,335
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+R-squared
+</td>
+<td>
+0.193
+</td>
+<td>
+0.207
+</td>
+<td>
+0.208
+</td>
+</tr>
+</tbody></table>
+<div class="deck-note">
+Outcome: fall kindergarten math score. Standard errors in parentheses. * p &lt; .05 &nbsp; ** p &lt; .01 &nbsp; *** p &lt; .001
+</div>
+<aside class="notes">
+<p>Here is a table in the format a journal would print. Three model columns, coefficients with standard errors underneath, stars for significance, and the sample size and R-squared at the bottom.</p>
+<p>Do not interpret it yet. Just notice the structure, because nearly every regression table you meet will look like this. Predictors down the left, models across the top, fit statistics at the bottom, and a footnote defining the stars.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="what-to-look-for" class="slide level2" data-runner="Part 4 · Regression Tables">
+<h2>What to Look For</h2>
+<div class="title-rule">
+
+</div>
+<div class="q-roadmap tight">
+<div class="q-rm-row">
+<div class="q-rm-num">
+1
+</div>
+<div class="q-rm-text">
+<strong>What is the outcome?</strong> The title or header tells you what is being predicted.
+</div>
+</div>
+<div class="q-rm-row">
+<div class="q-rm-num">
+2
+</div>
+<div class="q-rm-text">
+<strong>What are the predictors?</strong> The leftmost column. Note which are added across models.
+</div>
+</div>
+<div class="q-rm-row">
+<div class="q-rm-num">
+3
+</div>
+<div class="q-rm-text">
+<strong>How big are the effects?</strong> Use the outcome’s scale to judge whether a coefficient is practically meaningful.
+</div>
+</div>
+<div class="q-rm-row">
+<div class="q-rm-num">
+4
+</div>
+<div class="q-rm-text">
+<strong>Which are significant?</strong> Check the stars against the footnote.
+</div>
+</div>
+<div class="q-rm-row">
+<div class="q-rm-num">
+5
+</div>
+<div class="q-rm-text">
+<strong>How well does the model fit?</strong> R-squared, and adjusted R-squared if reported. Does it improve across models?
+</div>
+</div>
+<div class="q-rm-row">
+<div class="q-rm-num">
+6
+</div>
+<div class="q-rm-text">
+<strong>Is there an interaction?</strong> A product term such as “Female × SES” tests whether one association depends on another.
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>Six questions, in order, for any regression table you meet.</p>
+<p>What is the outcome. What are the predictors and how do they accumulate across columns. How big are the coefficients on the outcome’s own scale. Which are significant. How well does the model fit, and does the fit improve. And is there an interaction term hiding in the list.</p>
+<p>That sixth one you could not have asked two weeks ago. Now a product term in a variable list should register immediately.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="walking-through-the-table" class="slide level2" data-runner="Part 4 · Regression Tables">
+<h2>Walking Through the Table</h2>
+<div class="title-rule">
+
+</div>
+<div style="font-size:0.72em; line-height:1.6;">
+<p>
+<strong style="color:var(--gcs-green-deep);">Outcome:</strong> fall kindergarten math score.
+</p>
+<p>
+<strong>Model 1, SES only.</strong> SES is 5.96 and highly significant. R-squared is 0.193.
+</p>
+<p>
+<strong>Model 2, adding demographics.</strong> SES falls to 5.74, so part of what looked like an SES association was shared with the demographic variables. Female is −0.75, non-English home language is −1.89, and disability is −2.53. R-squared rises to 0.207.
+</p>
+<p>
+<strong>Model 3, adding an interaction.</strong> Female × SES is −0.73, significant at the .01 level. The SES slope is less steep for girls.
+</p>
+<div class="note-box" style="font-size:0.92em; margin-top:14px;">
+<p>SES slope for boys: <strong>6.10</strong><br> SES slope for girls: 6.10 + (−0.73) = <strong>5.37</strong></p>
+</div>
+</div>
+<aside class="notes">
+<p>Now the six questions applied.</p>
+<p>The outcome is fall kindergarten math. Model 1 has SES alone at 5.96 with an R-squared of 0.193.</p>
+<p>Model 2 adds demographics and SES drops to 5.74. That drop is informative: some of what Model 1 attributed to SES is shared with home language, gender, and disability status.</p>
+<p>Model 3 adds the interaction, negative 0.73. Apply exactly what you did earlier: the SES slope is 6.10 for boys and 5.37 for girls.</p>
+<p>And check the fit while you are here. R-squared goes 0.193, 0.207, 0.208. The interaction is statistically significant and moves the fit by one thousandth. That is the same pattern we saw with full-day kindergarten, and it is common with interactions.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-9" class="slide level2 cfu-slide" data-runner="PlayPosit Question 5">
+<h2></h2>
+<div class="cfu-frame">
+<div class="cfu-eyebrow">
+PlayPosit Question 5
+</div>
+<h2 class="cfu-prompt">
+In the table, what happens to the SES coefficient between Model 1 and Model 2?
+</h2>
+<ol class="cfu-options" type="A">
+<li>
+It increases, meaning SES matters more once controls are added
+</li>
+<li>
+It decreases from 5.96 to 5.74, meaning some of the SES association was shared with the demographic variables
+</li>
+<li>
+It stays the same, meaning the demographic variables are unrelated to math scores
+</li>
+<li>
+It becomes non-significant
+</li>
+</ol>
+</div>
+<aside class="notes">
+<p>In the table, what happens to the SES coefficient between Model 1 and Model 2?</p>
+<p>The answer is B. It falls from 5.96 to 5.74. When a coefficient moves after you add controls, the sensible reading is that the original estimate was carrying some of what those controls measure. SES is correlated with home language and with disability identification, so part of the Model 1 SES coefficient belonged to them.</p>
+<p>It is a small movement here, but the reasoning is the same one you use for large ones.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="looking-ahead" class="slide level2" data-runner="Module 2">
+<h2>Looking Ahead</h2>
+<div class="title-rule">
+
+</div>
+<div class="note-box" style="text-align:center; font-size:0.8em;">
+<p><strong>Next module: Working with Test-Score Data</strong></p>
+</div>
+<div style="font-size:0.74em; line-height:1.6; margin-top:26px;">
+<ul>
+<li>
+Scale scores, proficiency rates, and standardized scores
+</li>
+<li>
+Gain scores and growth measures
+</li>
+<li>
+What test scores can and cannot tell you about a school
+</li>
+</ul>
+</div>
+<div class="closing-line">
+Applied Data Analysis Assignment 1 is due at the end of next module. Part 4 asks you to interpret R-squared, adjusted R-squared, and the F-statistic from your own output.
+</div>
+<aside class="notes">
+<p>Next module moves to test-score data specifically: scale scores against proficiency rates, gain scores, and what these measures support and do not support.</p>
+<p>Applied Data Analysis Assignment 1 is due at the end of next module, so you have two weeks on it. Part 4 asks you to interpret the fit statistics from your own three-model sequence, so the material from the third section of this lecture is what you need for it.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<script>
+// Global footer overlay: reads data-runner from each slide section.
+// JS overlay rather than CSS absolute positioning, which gets clipped in fullscreen.
+document.addEventListener('DOMContentLoaded', function() {
+  var footer = document.createElement('div');
+  footer.id = 'global-runner';
+  document.querySelector('.reveal').appendChild(footer);
+
+  function updateRunner() {
+    var slide = Reveal.getCurrentSlide();
+    var runner = slide ? slide.getAttribute('data-runner') : '';
+    if (runner) {
+      footer.textContent = runner + '  |  Huffaker · EDA6427 · Module 2';
+      footer.style.display = 'block';
+    } else {
+      footer.style.display = 'none';
+    }
+  }
+
+  Reveal.on('slidechanged', updateRunner);
+  Reveal.on('ready', updateRunner);
+
+  // Reveal's 'ready' can fire before this listener attaches, which leaves the
+  // footer blank on load. Run once directly, and retry briefly if Reveal has
+  // not finished initialising yet.
+  if (typeof Reveal !== 'undefined' && Reveal.getCurrentSlide) {
+    updateRunner();
+  } else {
+    var tries = 0;
+    var t = setInterval(function() {
+      if (typeof Reveal !== 'undefined' && Reveal.getCurrentSlide) {
+        updateRunner(); clearInterval(t);
+      }
+      if (++tries > 40) clearInterval(t);
+    }, 50);
+  }
+});
+</script>
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="module_2_lecture_slides_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="module_2_lecture_slides_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="module_2_lecture_slides_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="module_2_lecture_slides_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="module_2_lecture_slides_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="module_2_lecture_slides_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="module_2_lecture_slides_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="module_2_lecture_slides_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="module_2_lecture_slides_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="module_2_lecture_slides_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1280,
+
+        height: 720,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 4.0e-2,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>
