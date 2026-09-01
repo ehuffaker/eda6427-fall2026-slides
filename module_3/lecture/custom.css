@@ -1,0 +1,914 @@
+/* ============================================================
+   Module 3 — How Quantitative Data Are Used in Practice and Research
+
+   Design principles (Tufte):
+   - Maximize data-ink: no decoration that doesn't carry information
+   - Clear hierarchy: title → lead → content → annotations
+   - Layering: primary content dark/saturated, secondary recedes
+   - Integration: words and structure work together, not stacked
+   - Vertical breathing room: content centered in the slide, not
+     gravity-pinned to the top
+   ============================================================ */
+
+:root {
+  --bg:               #ffffff;
+  --bg-soft:          #fafafa;
+  --text:             #37474F;
+  --text-muted:       #546E7A;
+
+  --gcs-green:        #2E7D32;
+  --gcs-green-deep:   #1B5E20;
+  --gcs-green-bg:     #E8F5E9;
+
+  --uf-blue:          #0021A5;
+  --uf-blue-bg:       #E8EBF5;
+
+  --uf-orange:        #FA4616;
+  --uf-orange-bg:     #FDE8E2;
+
+  --grey-light:       #ECEFF1;
+}
+
+/* Reveal.js base overrides */
+.reveal {
+  font-family: 'Calibri', 'Helvetica Neue', Arial, sans-serif;
+  color: var(--text);
+  font-size: 28px;
+}
+
+.reveal .slides {
+  text-align: left;
+}
+
+.reveal .slides section {
+  background: var(--bg);
+}
+
+/* Safe zone for slide-runner so it never overlaps content */
+.reveal .slides > section { padding-bottom: 56px; }
+
+/* Slide titles */
+.reveal h1, .reveal h2 {
+  color: var(--gcs-green-deep);
+  font-weight: 700;
+  text-transform: none;
+  letter-spacing: -0.01em;
+}
+.reveal h2 {
+  font-size: 1.4em;
+  margin: 0 0 0.15em;
+}
+
+.title-rule {
+  width: 60px;
+  height: 3px;
+  background: var(--gcs-green);
+  border-radius: 2px;
+  margin: 0 0 1.8em 0;
+}
+
+.reveal p, .reveal li {
+  color: var(--text);
+}
+
+.reveal em, .reveal i {
+  color: var(--text);
+}
+
+.reveal strong {
+  font-weight: 700;
+}
+
+.reveal a {
+  color: var(--uf-blue);
+  text-decoration: none;
+}
+.reveal a:hover {
+  text-decoration: underline;
+}
+
+.reveal .slide-number {
+  color: var(--text-muted);
+  font-size: 0.5em;
+}
+
+/* ============================================================
+   Title slide
+   ============================================================ */
+.title-slide {
+  text-align: center !important;
+}
+.reveal .title-slide h1 {
+  font-size: 1.9em;
+  color: var(--gcs-green-deep);
+  margin-bottom: 0.2em;
+}
+.reveal .title-slide .accent {
+  width: 120px;
+  height: 3px;
+  background: var(--uf-orange);
+  margin: 24px auto;
+  border-radius: 2px;
+}
+.reveal .title-slide .subtitle {
+  font-size: 0.95em;
+  color: var(--text);
+  margin: 0.5em 0;
+}
+.reveal .title-slide .course-label {
+  font-size: 0.55em;
+  color: var(--text-muted);
+  margin-top: 2em;
+  letter-spacing: 0.04em;
+}
+
+/* ============================================================
+   Global runner — injected by JS outside the slides container.
+   Appended to .reveal so it participates in Reveal.js scaling
+   and survives fullscreen mode.
+   ============================================================ */
+#global-runner {
+  position: absolute;
+  bottom: 1em;
+  left: 1.5em;
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 600;
+  z-index: 100;
+  pointer-events: none;
+}
+
+/* ============================================================
+   Lead-in paragraph — lighter weight than body, sets context
+   ============================================================ */
+.reveal .slide-lead {
+  font-size: 0.82em;
+  color: var(--text);
+  margin: 0 0 1.6em;
+  line-height: 1.55;
+  max-width: 960px;
+}
+
+/* ============================================================
+   Intro slide — centered, generous spacing
+   ============================================================ */
+.reveal section.intro-slide {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+}
+.reveal section.intro-slide .intro-body {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+.reveal section.intro-slide .intro-body p {
+  font-size: 21px !important;
+  line-height: 1.75 !important;
+  margin-bottom: 28px !important;
+}
+.reveal section.intro-slide .intro-body p:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* ============================================================
+   Vertically centered content slide
+   ============================================================ */
+/* vcenter slides use Quarto's auto-stretch; no flex override needed */
+
+/* ============================================================
+   Reusable building blocks
+   ============================================================ */
+
+.box-grid {
+  display: grid;
+  gap: 20px;
+  margin: 0;
+}
+.box-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+.box-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+.box-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+/* Tinted boxes with light border — present but not heavy */
+.box {
+  background: var(--gcs-green-bg);
+  border: 1px solid rgba(46, 125, 50, 0.25);
+  border-radius: 8px;
+  padding: 20px 18px;
+  display: flex;
+  flex-direction: column;
+}
+.box.blue {
+  background: var(--uf-blue-bg);
+  border-color: rgba(0, 33, 165, 0.25);
+}
+.box.orange {
+  background: var(--uf-orange-bg);
+  border-color: rgba(250, 70, 22, 0.25);
+}
+.box.grey {
+  background: var(--grey-light);
+  border-color: rgba(144, 164, 174, 0.3);
+}
+
+.box-title {
+  font-size: 0.85em;
+  font-weight: 700;
+  color: var(--gcs-green-deep);
+  margin: 0 0 0.5em;
+}
+.box.blue .box-title { color: var(--uf-blue); }
+.box.orange .box-title { color: var(--uf-orange); }
+.box.grey .box-title { color: var(--text); }
+
+.box-body {
+  font-size: 0.68em;
+  color: var(--text);
+  flex: 1;
+  line-height: 1.5;
+}
+.box-tag {
+  font-size: 0.62em;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-top: 0.6em;
+  padding-top: 0.4em;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* Callout — thinner, quieter */
+.callout {
+  border-left: 4px solid var(--gcs-green);
+  padding: 18px 24px;
+  margin: 0 0 1.4em;
+  background: transparent;
+  width: 100%;
+  box-sizing: border-box;
+}
+.callout.blue {
+  border-left-color: var(--uf-blue);
+}
+.callout-title {
+  font-size: 0.72em;
+  font-weight: 700;
+  color: var(--gcs-green-deep);
+  margin: 0 0 0.3em;
+  letter-spacing: 0.02em;
+}
+.callout.blue .callout-title { color: var(--uf-blue); }
+.callout-body {
+  font-size: 0.72em;
+  color: var(--text);
+  line-height: 1.55;
+  font-style: italic;
+  max-width: 100%;
+}
+
+/* Blockquote — for prominent quotes (Tufte: integrate words) */
+.slide-quote {
+  font-size: 0.88em;
+  font-style: italic;
+  color: var(--text);
+  line-height: 1.65;
+  border-left: 4px solid var(--gcs-green);
+  padding: 0 0 0 24px;
+  margin: 0 0 1.2em 0;
+  max-width: 900px;
+}
+.slide-quote-source {
+  font-size: 0.65em;
+  color: var(--text-muted);
+  font-style: normal;
+  font-weight: 600;
+  margin-top: 0.6em;
+  letter-spacing: 0.03em;
+}
+
+/* Roadmap rows — lighter */
+.q-roadmap {
+  display: grid;
+  gap: 14px;
+  margin-top: 0;
+}
+.q-rm-row {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  gap: 16px;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--bg-soft);
+  border-radius: 4px;
+}
+.q-rm-num {
+  background: var(--gcs-green);
+  color: white;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.75em;
+}
+.q-rm-text {
+  font-size: 0.72em;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+/* ============================================================
+   Section divider slides
+   ============================================================ */
+.reveal section.divider {
+  background: var(--gcs-green-bg);
+}
+
+.divider-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.divider-eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gcs-green);
+  margin-bottom: 12px;
+}
+
+.divider-title {
+  font-size: 1.6em;
+  font-weight: 700;
+  color: var(--gcs-green-deep);
+  margin: 0;
+}
+
+.divider-rule {
+  width: 60px;
+  height: 3px;
+  background: var(--uf-orange);
+  border-radius: 2px;
+  margin: 16px auto 0;
+}
+
+/* ============================================================
+   PlayPosit question slides (orange top bar)
+   ============================================================ */
+.reveal section.cfu {
+  background: linear-gradient(to bottom, var(--uf-orange) 0, var(--uf-orange) 5px, #fff 5px);
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.reveal .cfu-frame {
+  padding: 0 8px;
+}
+
+.reveal .cfu-eyebrow {
+  color: var(--uf-orange);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.reveal .cfu-prompt {
+  color: var(--text);
+  font-size: 26px;
+  font-weight: 500;
+  line-height: 1.5;
+  margin: 0 0 36px;
+  max-width: 1000px;
+  text-align: left;
+  border-bottom: none;
+}
+
+.reveal ol.cfu-options {
+  list-style-type: upper-alpha;
+  padding-left: 1.5em;
+  font-size: 21px;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+.reveal ol.cfu-options li {
+  padding: 5px 0;
+  margin-bottom: 4px;
+}
+
+.reveal ol.cfu-options li::marker {
+  font-weight: 700;
+  color: var(--uf-orange);
+}
+
+.reveal .cfu-foot {
+  color: var(--text-muted);
+  font-size: 16px;
+  margin-top: 36px;
+  font-style: italic;
+}
+
+/* ============================================================
+   Pyramid layout (slide 5 — research ecosystem)
+   ============================================================ */
+.pyramid-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: center;
+}
+
+.pyramid-visual {
+  max-width: 560px;
+}
+
+.pyramid-visual svg {
+  width: 100%;
+  height: auto;
+}
+
+.pyramid-text {
+  font-size: 0.9em;
+}
+
+.pyramid-text .slide-quote {
+  font-size: 0.82em;
+  margin-bottom: 1em;
+}
+
+.pyramid-text .slide-lead {
+  font-size: 0.75em;
+}
+
+/* ============================================================
+   Descriptive vs. Causal comparison
+   ============================================================ */
+.rq-comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin: 0 0 1.4em;
+}
+
+.rq-col {
+  border: 1px solid rgba(46, 125, 50, 0.25);
+  border-radius: 8px;
+  padding: 22px 20px;
+  background: var(--gcs-green-bg);
+}
+.rq-col.causal {
+  background: var(--uf-blue-bg);
+  border-color: rgba(0, 33, 165, 0.25);
+}
+
+.rq-col-title {
+  font-size: 0.95em;
+  font-weight: 700;
+  margin: 0 0 0.5em;
+}
+.rq-col.descriptive .rq-col-title { color: var(--gcs-green-deep); }
+.rq-col.causal .rq-col-title { color: var(--uf-blue); }
+
+.rq-col-body {
+  font-size: 0.7em;
+  color: var(--text);
+  line-height: 1.55;
+}
+
+.rq-col-body .rq-keyword {
+  font-weight: 700;
+  display: block;
+  margin: 0 0 0.3em;
+  font-size: 1.08em;
+}
+
+.rq-example {
+  font-style: italic;
+  color: var(--text-muted);
+  margin-top: 0.8em;
+  padding-top: 0.6em;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  font-size: 0.92em;
+}
+
+/* ============================================================
+   Score anatomy (scale score / proficiency)
+   ============================================================ */
+.score-anatomy {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin: 0 0 1em;
+}
+
+.score-card {
+  border: 1px solid rgba(46, 125, 50, 0.25);
+  border-radius: 8px;
+  padding: 22px 20px;
+  background: var(--gcs-green-bg);
+}
+
+.score-card-title {
+  font-size: 0.95em;
+  font-weight: 700;
+  color: var(--gcs-green-deep);
+  margin: 0 0 0.5em;
+}
+
+.score-card-body {
+  font-size: 0.7em;
+  color: var(--text);
+  line-height: 1.55;
+}
+
+.score-card-example {
+  font-size: 0.65em;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-top: 0.7em;
+  padding-top: 0.5em;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  line-height: 1.45;
+}
+
+/* Proficiency bar — clean data visualization */
+.prof-bar-container {
+  margin: 1.2em 0;
+}
+
+.prof-bar {
+  display: grid;
+  grid-template-columns: 20% 30% 35% 15%;
+  height: 44px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.prof-segment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6em;
+  font-weight: 700;
+  color: white;
+}
+.prof-segment.level-1 { background: #E53935; }
+.prof-segment.level-2 { background: #FB8C00; }
+.prof-segment.level-3 { background: #43A047; }
+.prof-segment.level-4 { background: #1B5E20; }
+
+.prof-labels {
+  display: grid;
+  grid-template-columns: 20% 30% 35% 15%;
+  margin-top: 6px;
+}
+.prof-label {
+  font-size: 0.52em;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* ============================================================
+   Answer block
+   ============================================================ */
+.answer-block {
+  max-width: 920px;
+  margin: 0;
+}
+.answer-block p {
+  font-size: 0.76em;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+/* ============================================================
+   Looking-ahead slide
+   ============================================================ */
+.ahead-list {
+  margin: 0;
+  padding-left: 1.2em;
+}
+.ahead-list li {
+  font-size: 0.76em;
+  line-height: 1.6;
+  margin-bottom: 14px;
+  color: var(--text);
+}
+.ahead-list li strong {
+  color: var(--gcs-green-deep);
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width: 900px) {
+  .rq-comparison,
+  .score-anatomy {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===== Module 4 additions: figure layout + code card ===== */
+.fig-layout {
+  display: grid;
+  grid-template-columns: 1.08fr 1fr;
+  gap: 34px;
+  align-items: center;
+  margin-top: 8px;
+}
+.fig-img img {
+  width: 100%;
+  height: auto;
+  border: 1.5px solid var(--border, #d9d9d9);
+  border-radius: 10px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.14);
+  background: #fff;
+}
+.fig-text p {
+  font-size: 21px;
+  line-height: 1.45;
+  margin: 10px 0 0 0;
+}
+.code-card {
+  background: #f4f6fb;
+  border: 1.5px solid var(--uf-blue, #0021A5);
+  border-left-width: 5px;
+  border-radius: 8px;
+  padding: 18px 22px;
+  margin: 18px 0;
+  font-size: 24px;
+  line-height: 1.9;
+}
+.code-card code {
+  background: none;
+  color: var(--text, #1a1a1a);
+}
+
+/* ===== Culminating-question slide subtitle ===== */
+.divider-sub {
+  max-width: 880px;
+  margin: 22px auto 0;
+  font-size: 22px;
+  line-height: 1.5;
+  color: var(--text-muted, #555);
+  font-style: italic;
+}
+
+/* ===== Compact code line on figure slides ===== */
+.fig-code {
+  background: #f4f6fb;
+  border-left: 4px solid var(--uf-blue, #0021A5);
+  border-radius: 6px;
+  padding: 9px 13px;
+  margin: 6px 0 14px;
+  font-size: 17px;
+  line-height: 1.65;
+}
+.fig-code code { background: none; color: var(--text, #1a1a1a); }
+
+/* ===== Conditional-means mini-visual (Unconditional vs Conditional slide) ===== */
+.cond-visual {
+  display: flex; align-items: center; justify-content: center;
+  gap: 26px; margin: 22px 0 6px;
+}
+.cond-chip {
+  border: 1.5px solid #c9cfdb; border-radius: 10px;
+  padding: 12px 22px; text-align: center; background: #eceff3;
+}
+.cond-chip.grp { background: #e7ecf9; border-color: var(--uf-blue, #0021A5); }
+.cond-groups { display: flex; gap: 16px; }
+.cond-arrow { font-size: 15px; letter-spacing: .04em; color: #667; text-transform: uppercase; }
+.cond-cap { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: #667; margin-bottom: 4px; }
+.cond-val { font-size: 26px; font-weight: 700; color: #1a1a1a; }
+
+/* ===== Stata output block (show real output + highlight key parts) ===== */
+.stata-out {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 15px; line-height: 1.45;
+  background: #f7f7f4; border: 1.5px solid #d9d9d9; border-radius: 8px;
+  padding: 12px 14px; white-space: pre; margin: 8px 0 0; overflow-x: auto;
+}
+.stata-out .hl { background: #ffe27a; border-radius: 3px; padding: 0 3px; font-weight: 700; }
+.cmp-note { font-size: 17px; line-height: 1.4; margin-top: 10px; }
+
+/* ---- Module 5: centered vertical figure stack (faithful to Spring layout) ---- */
+.fig-stack { display:flex; flex-direction:column; align-items:center; gap:0.35em; margin-top:0.3em; }
+.fig-stack .fig-img img { max-height:3.4in; max-width:86%; width:auto; height:auto; }
+.fig-stack .fig-cap { text-align:center; max-width:11in; color:#333; font-size:0.78em; line-height:1.4; }
+.reveal .fig-code { margin:4px 0 8px; }
+
+/* ===================== Module 9 additions ===================== */
+
+.reveal section.vcenter { padding-top: 90px; }
+
+/* hub / flow SVG figures */
+.svg-fig { margin-top: 14px; }
+.svg-fig svg { width: 100%; height: auto; display: block; }
+
+/* waterline (observable vs unobservable) */
+.water-layout { display: grid; grid-template-columns: 170px 1fr; gap: 20px; margin-top: 8px; }
+.water-side { display: flex; align-items: center; justify-content: center; text-align: center;
+  font-weight: 700; font-size: 0.62em; line-height: 1.25; }
+.water-main { min-width: 0; }
+.water-box { border-radius: 12px; padding: 12px 26px; border: 1px solid transparent; }
+.water-box .wb-title { font-weight: 700; font-size: 0.7em; margin-bottom: 4px; }
+.water-box ul { list-style: none; margin: 0; padding: 0; font-size: 0.6em; line-height: 1.4; }
+.waterline-row { display: flex; align-items: center; gap: 12px; margin: 8px 0; }
+.waterline-row .wl-line { flex: 1; height: 3px; background: #7986CB; border-radius: 2px; }
+.waterline-row .wl-label { font-style: italic; color: #7986CB; font-size: 0.55em; }
+
+/* evidence hierarchy stack */
+.hier-stack { display: grid; grid-template-columns: 1fr 150px; gap: 22px; margin-top: 10px; }
+.hier-levels { display: flex; flex-direction: column; gap: 9px; }
+.hier-level { border-radius: 10px; padding: 11px 24px; }
+.hier-level .hl-name { font-weight: 700; font-size: 0.76em; }
+.hier-level .hl-q { font-style: italic; font-size: 0.62em; }
+.hier-level .hl-how { font-size: 0.58em; opacity: 0.92; }
+.hier-arrow { display: flex; flex-direction: column; align-items: center; justify-content: center;
+  color: var(--uf-orange); font-weight: 700; font-size: 0.58em; text-align: center; gap: 10px; }
+.hier-arrow .ha-glyph { font-size: 2.2em; line-height: 0.8; }
+
+/* course-work mapping rows */
+.map-row { display: grid; grid-template-columns: 250px 1fr; gap: 14px; align-items: center; margin-bottom: 10px; }
+.map-chip { border-radius: 8px; padding: 9px 14px; font-weight: 700; font-size: 0.66em; text-align: center; }
+.map-text { font-size: 0.64em; line-height: 1.35; }
+
+/* school finance table */
+.fin-table { width: 100%; border-collapse: collapse; font-size: 0.6em; margin-top: 12px; }
+.fin-table th { background: var(--gcs-green-deep); color: white; padding: 10px 16px; text-align: left; }
+.fin-table td { border: 1px solid #CFD8DC; padding: 9px 16px; vertical-align: top; line-height: 1.35; }
+.fin-table td.fl { font-weight: 700; white-space: nowrap; }
+
+/* Jackson et al. checklist demo */
+.jjp-summary { border-radius: 10px; padding: 12px 22px; background: var(--uf-blue-bg);
+  border: 1px solid #B3BCE0; font-size: 0.62em; line-height: 1.4; margin-top: 8px; }
+.jjp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px 22px; font-size: 0.58em; margin-top: 12px; }
+.jjp-item { display: flex; gap: 8px; line-height: 1.3; }
+.jjp-q { font-weight: 700; white-space: nowrap; }
+
+/* misc */
+.deck-note { font-size: 0.52em; color: #455A64; margin-top: 12px; font-style: italic; }
+.closing-line { font-size: 0.66em; margin-top: 16px; }
+
+/* note-box: replaces div.callout usage (Quarto hijacks the callout class) */
+.reveal .note-box { border-radius: 10px; padding: 13px 24px; font-size: 0.62em;
+  line-height: 1.45; margin-top: 16px; background: var(--gcs-green-bg); border: 1px solid #A5D6A7; }
+
+/* hierarchy text colors — beat reveal's cascade */
+.reveal .hier-level.lt, .reveal .hier-level.lt span { color: #1B3C1E !important; }
+.reveal .hier-level.dk, .reveal .hier-level.dk span { color: #FFFFFF !important; }
+.reveal .hier-level.base, .reveal .hier-level.base span { color: #37474F !important; }
+.hier-arrow .ha-glyph { font-size: 3.2em; }
+
+/* spacing polish pass (2026-07-13) */
+.reveal .note-box { font-size: 0.68em; padding: 16px 26px; margin-top: 22px; }
+.reveal .def-box { font-size: 0.8em; padding: 24px 32px; line-height: 1.5; margin-top: 26px; }
+.reveal .closing-line { font-size: 0.7em; line-height: 1.45; margin-top: 22px; max-width: 62rem; }
+
+/* plain statement rows (no number column) */
+.reveal .stmt-row { background: #F7F9F9; border-radius: 10px; padding: 14px 24px;
+  font-size: 0.7em; line-height: 1.4; margin-bottom: 12px; }
+
+/* finance table: constrain width, center, more row presence */
+.reveal .fin-table { max-width: 1020px; margin: 22px auto 0; font-size: 0.64em; }
+.reveal .fin-table th { padding: 12px 18px; }
+.reveal .fin-table td { padding: 12px 18px; }
+
+/* ===================== Module 1 (Fall 2026) additions ===================== */
+
+/* Published-paper results table — dense, journal-style, for the Claessens Table 1 read */
+.reveal .paper-table {
+  width: 100%; max-width: 1120px; margin: 14px auto 0;
+  border-collapse: collapse; font-size: 0.44em; line-height: 1.25;
+  table-layout: fixed;
+}
+.reveal .paper-table th {
+  background: var(--gcs-green-deep); color: #fff;
+  padding: 6px 8px; text-align: center; font-weight: 700;
+}
+.reveal .paper-table th.rowhead,
+.reveal .paper-table td.rowhead { width: 290px; }
+.reveal .paper-table th.rowhead { text-align: left; }
+.reveal .paper-table td {
+  border-bottom: 1px solid #E0E4E6; padding: 6px 8px;
+  text-align: center; vertical-align: middle; white-space: nowrap;
+}
+.reveal .paper-table td.rowhead {
+  text-align: left; font-weight: 600; white-space: normal;
+  padding-left: 10px; color: #263238;
+}
+.reveal .paper-table .se { color: #546E7A; font-size: 0.88em; }
+.reveal .paper-table tr.hlrow td { background: #FFF6D9; }
+.reveal .paper-table tr.hlrow td.rowhead { font-weight: 700; }
+.reveal .paper-table tr.ftr td {
+  border-bottom: none; border-top: 1px solid #B0BEC5;
+  font-size: 0.94em; color: #455A64; padding-top: 4px; padding-bottom: 4px;
+}
+.reveal .paper-table tr.ftr td.rowhead { font-weight: 500; font-style: italic; }
+
+.box-grid.cols-1 { grid-template-columns: 1fr; }
+
+/* Column key beneath the paper table */
+.reveal .col-key {
+  display: grid; grid-template-columns: 290px repeat(5, 1fr); gap: 0 8px;
+  max-width: 1120px; margin: 6px auto 0; font-size: 0.4em; line-height: 1.3;
+}
+.reveal .col-key div { color: #455A64; }
+.reveal .col-key .ck-n { font-weight: 700; color: var(--gcs-green-deep); }
+
+.reveal .note-box + .box-grid { margin-top: 16px; }
+
+.reveal .fin-table + .cmp-note,
+.reveal .paper-table + .cmp-note { margin-top: 26px; }
+
+.reveal .q-roadmap.tight { gap: 8px; }
+.reveal .q-roadmap.tight .q-rm-row { padding: 7px 16px; }
+.reveal .q-roadmap.tight .q-rm-num { width: 26px; height: 26px; font-size: 0.66em; }
+.reveal .q-roadmap.tight .q-rm-text { font-size: 0.66em; }
+
+.reveal .quote-box {
+  border-left: 4px solid var(--gcs-green); background: #FAFBF9;
+  padding: 12px 20px; margin-top: 14px; border-radius: 0 8px 8px 0;
+  font-size: 0.62em; line-height: 1.5; color: #37474F; font-style: italic;
+}
+.reveal .quote-box strong { font-style: normal; color: #1B4D20; }
+
+.reveal .scan-wrap { margin-top: 16px; text-align: center; }
+.reveal .scan-wrap img {
+  max-width: 78%; max-height: 330px; height: auto;
+  border: 1px solid #CFD8DC; border-radius: 4px; background: #fff;
+}
+.reveal .scan-wrap.wide img { max-width: 96%; max-height: 430px; }
+
+/* fin-table nested inside a .box (Step 6 answers) */
+.reveal .box .fin-table { font-size: 0.55em; margin: 8px 0 4px; max-width: 100%; }
+.reveal .box .fin-table th,
+.reveal .box .fin-table td { padding: 7px 10px; }
+
+/* ===================== Module 2 (Fall 2026) additions ===================== */
+
+/* The runner footer sits at the same bottom-left corner as reveal's menu
+   button. In Module 1 the runner never rendered (its init raced Reveal's
+   'ready' event) so the collision was invisible. With the runner fixed, it
+   needs to clear the button. */
+#global-runner { left: 3.4em; bottom: 0.85em; }
+
+/* fin-table: the last row's bottom border was being clipped by the slide's
+   overflow edge. Give the table room and let the closing line breathe. */
+.reveal .fin-table { margin-bottom: 18px; }
+.reveal .fin-table tr:last-child td { border-bottom: 1px solid #CFD8DC; }
+
+/* Model-fit comparison table is numeric: right-align the value columns so the
+   reader can compare down a column. */
+.reveal .fin-table td:not(.fl) { text-align: right; }
+.reveal .fin-table th:not(:first-child) { text-align: right; }
+
+/* Journal-style table on the "regression table from a study" slide */
+.reveal .paper-table { font-size: 0.5em; }
+.reveal .paper-table th {
+  background: var(--gcs-green-deep); color: #fff;
+  padding: 8px 10px; text-align: right; font-weight: 700;
+}
+.reveal .paper-table td {
+  padding: 6px 10px; text-align: right;
+  border-bottom: 1px solid #ECEFF1; vertical-align: top;
+}
+.reveal .paper-table tr:nth-child(even) td { background: #FAFAFA; }
+
+/* ===================== Module 3 (Fall 2026) additions ===================== */
+
+/* misinterpretation claim/response pairs */
+.reveal .mi-pair { margin-bottom: 12px; }
+.reveal .mi-claim { background: var(--uf-orange-bg); border: 1px solid rgba(250,70,22,0.25);
+  border-radius: 8px 8px 0 0; padding: 9px 20px; font-size: 0.66em; font-style: italic;
+  font-weight: 600; color: var(--text); }
+.reveal .mi-resp { background: var(--bg-soft); border: 1px solid #E0E4E6; border-top: none;
+  border-radius: 0 0 8px 8px; padding: 8px 20px; font-size: 0.62em; line-height: 1.4;
+  color: var(--text); }
+
+/* equation card */
+.reveal .eq-card { background: var(--gcs-green-bg); border: 1px solid #A5D6A7;
+  border-radius: 8px; padding: 16px 26px; font-size: 0.8em; text-align: center;
+  margin: 4px 0 10px; color: var(--text); }
+.reveal .eq-card .eq-note { font-size: 0.68em; color: var(--text-muted); margin-top: 8px; }
+
+/* two-model comparison columns */
+.reveal .model-cols .stata-out { font-size: 14px; }
+
+/* badge chips under the two-model comparison */
+.reveal .badge-row { display: flex; gap: 18px; justify-content: center; margin-top: 14px; }
+.reveal .badge-chip { background: var(--uf-orange-bg); border: 1px solid rgba(250,70,22,0.3);
+  border-radius: 8px; padding: 8px 22px; font-weight: 700; font-size: 0.66em;
+  color: var(--text); }
+
+/* growth/score-type tables: these are mixed text tables, keep cells left-aligned
+   where inline-styled; loosen the numeric right-align default for .fl rows only */

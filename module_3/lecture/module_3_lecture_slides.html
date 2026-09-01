@@ -1,0 +1,2023 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="module_3_lecture_slides_files/libs/clipboard/clipboard.min.js"></script>
+<script src="module_3_lecture_slides_files/libs/quarto-html/tabby.min.js"></script>
+<script src="module_3_lecture_slides_files/libs/quarto-html/popper.min.js"></script>
+<script src="module_3_lecture_slides_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="module_3_lecture_slides_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="module_3_lecture_slides_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="module_3_lecture_slides_files/libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.37">
+
+  <title>Module 3: Working with Test-Score Data</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="module_3_lecture_slides_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="module_3_lecture_slides_files/libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="module_3_lecture_slides_files/libs/revealjs/dist/theme/quarto-0427d8d92a431aa6a6430e53ec02a470.css">
+  <link rel="stylesheet" href="custom.css">
+  <link href="module_3_lecture_slides_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="module_3_lecture_slides_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="module_3_lecture_slides_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="module_3_lecture_slides_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+
+<section id="section" class="slide level2 title-slide center" data-runner="">
+<h2></h2>
+<div class="center">
+<h1>
+Working with Test-Score Data
+</h1>
+<div class="accent">
+
+</div>
+<div class="subtitle">
+What do the numbers actually tell us?
+</div>
+<div class="course-label">
+EDA6427 &nbsp;|&nbsp; Applied Education Policy Research
+</div>
+</div>
+<aside class="notes">
+<p>Welcome to this module on test scores: something we have been using all semester but never really examined. What they are, how they are built, and what they can and cannot tell you about student learning.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-1" class="slide level2 cfu-slide" data-runner="Module 3">
+<h2></h2>
+<div class="cfu-frame">
+<div class="cfu-eyebrow">
+PlayPosit Prompt
+</div>
+<h2 class="cfu-prompt">
+A school’s reading proficiency rate jumped from 55% to 70% in one year. Meanwhile, a neighboring school’s rate stayed flat at 80%.<br><br>What questions would you want to ask before celebrating?
+</h2>
+<div class="cfu-foot">
+Type your response — we’ll revisit this at the end.
+</div>
+</div>
+<aside class="notes">
+<p>Here is a scenario. A school’s reading proficiency rate jumped from 55% to 70% in one year. Meanwhile, a neighboring school’s proficiency rate stayed flat at 80%.</p>
+<p>Before we get into any content: what questions would you want to ask before celebrating that first school’s improvement? Take a moment and type your response.</p>
+<p>There are no wrong answers here. We come back to this scenario at the end of the lecture, and by then you will have a much more specific set of questions.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="where-we-are" class="slide level2" data-runner="Module 3">
+<h2>Where We Are</h2>
+<div class="title-rule">
+
+</div>
+<div class="slide-lead">
+All semester, we’ve used test scores as outcomes in regression. Today we ask: what kind of score is it, and does it matter?
+</div>
+<div class="box-grid cols-3">
+<div class="box grey">
+<div class="box-title">
+SO FAR
+</div>
+<div class="box-body">
+<strong>Regression &amp; Reading Evidence</strong><br><br>Building, extending, and reading models
+</div>
+<div class="box-tag">
+The tools
+</div>
+</div>
+<div class="box">
+<div class="box-title">
+TODAY
+</div>
+<div class="box-body">
+<strong>Working with Test Scores</strong><br><br>Proficiency, scaled, standardized, growth
+</div>
+<div class="box-tag">
+The measurement
+</div>
+</div>
+<div class="box grey">
+<div class="box-title">
+NEXT MODULE
+</div>
+<div class="box-body">
+<strong>Survey Data</strong><br><br>Sampling, weighting, representativeness
+</div>
+<div class="box-tag">
+The data source
+</div>
+</div>
+</div>
+<div class="closing-line">
+The type of score you use changes the story you tell.
+</div>
+<aside class="notes">
+<p>Zooming out. All semester we have been running regressions with test scores as the outcome variable: reading scores in ECLS-K, mean reading scores in the Florida district data. We have predicted them with SES, poverty, gender, full-day kindergarten, language status.</p>
+<p>But we have never stopped to ask: what kind of score is this? Does the type of score change the story? The answer is yes, and that is what today is about.</p>
+<p>Three things today. First, the proficiency rate: the metric that dominates education policy, and why it can be deeply misleading. Second, the alternatives: scaled scores and standardized scores, and how the same regression tells different stories depending on which score you use. Third, measuring growth: value-added measures and two practical approaches to modeling whether students are improving over time.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="why-we-use-test-scores" class="slide level2" data-runner="Module 3">
+<h2>Why We Use Test Scores</h2>
+<div class="title-rule">
+
+</div>
+<div class="box-grid cols-2">
+<div class="box">
+<div class="box-title">
+Why They’re Useful
+</div>
+<div class="box-body">
+<ul>
+<li>
+Predict outcomes we care about (graduation, college, earnings)
+</li>
+<li>
+Gauge whether learning is occurring (common, comparable signal)
+</li>
+<li>
+Inform instructional decisions (intervention, enrichment, skill gaps)
+</li>
+<li>
+Enable accountability and evaluation (school performance, program effects)
+</li>
+</ul>
+</div>
+</div>
+<div class="box grey">
+<div class="box-title">
+Limitations
+</div>
+<div class="box-body">
+<ul>
+<li>
+Capture only part of what schools do (not creativity, motivation, citizenship)
+</li>
+<li>
+A snapshot, not a full picture (one test, one day, one domain)
+</li>
+<li>
+High stakes distort behavior (teaching to the test, narrowed curriculum)
+</li>
+<li>
+Inequality in testing conditions (resources, test prep access, bias)
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="closing-line">
+Test scores are valuable. Understanding their limitations makes them more so.
+</div>
+<aside class="notes">
+<p>Before we talk about what can go wrong with test scores, what are they good for, and where are their limits?</p>
+<p>On the useful side: test scores predict long-run outcomes we care about. They correlate with high school graduation, college enrollment, and earnings. They give us a common, comparable signal for whether learning is occurring; without measurement, we are guessing. They inform instructional decisions: identifying which students need intervention, which are ready for enrichment. And they enable accountability: holding schools accountable, evaluating programs, and allocating resources all require some form of measurement.</p>
+<p>But test scores also have real limitations. They capture only a slice of what schools do: not creativity, not motivation, not civic engagement. A test score is a snapshot: one test, one day, one domain. When you attach high stakes to that number, it distorts behavior: schools narrow the curriculum, teachers teach to the test, and the score starts measuring test preparation rather than broad learning. And there are inequalities in testing conditions themselves: differences in resources, test prep access, and potential test bias.</p>
+<p>Both sides are true at the same time. Test scores are valuable, and understanding their limitations makes them more so.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-2" class="slide level2 divider" data-runner="">
+<h2></h2>
+<div class="divider-content">
+<div class="divider-eyebrow">
+Part 1
+</div>
+<div class="divider-title">
+Proficiency Rates
+</div>
+<div class="divider-rule">
+
+</div>
+</div>
+</section>
+<section id="proficiency-rates" class="slide level2" data-runner="Part 1 · Proficiency Rates">
+<h2>Proficiency Rates</h2>
+<div class="title-rule">
+
+</div>
+<div class="note-box" style="margin-top:0;">
+<p><strong>Proficiency rate:</strong> the percentage of students who score at or above a predetermined cut score on a standardized test.<br> <span style="color:var(--text-muted); font-style:italic;">Example: “65% of 4th graders scored proficient or above in reading.”</span></p>
+</div>
+<div class="q-roadmap tight" style="margin-top:18px;">
+<div class="q-rm-row">
+<div class="q-rm-num">
+1
+</div>
+<div class="q-rm-text">
+<strong>Accountability</strong> — school grades, state report cards, federal reporting under ESSA
+</div>
+</div>
+<div class="q-rm-row">
+<div class="q-rm-num">
+2
+</div>
+<div class="q-rm-text">
+<strong>Identifying students</strong> — who needs intervention? Who’s on track? Who qualifies for services?
+</div>
+</div>
+<div class="q-rm-row">
+<div class="q-rm-num">
+3
+</div>
+<div class="q-rm-text">
+<strong>Comparing subgroups</strong> — achievement gaps by race, income, disability, English learner status
+</div>
+</div>
+</div>
+<div class="closing-line">
+Simple and intuitive: but simple doesn’t mean accurate.
+</div>
+<aside class="notes">
+<p>Start with the number everyone knows: the proficiency rate. A proficiency rate is the percentage of students who score at or above a predetermined cut score on a standardized test. “65% of our 4th graders are proficient in reading” is a proficiency rate.</p>
+<p>It is the dominant metric in education, and as a school leader you will encounter it constantly. Three main uses. First, accountability. When your state assigns a school grade, proficiency rates are a major input. Federal reporting under ESSA requires states to report proficiency. When a newspaper runs a headline about school performance, it is almost always proficiency rates.</p>
+<p>Second, identifying students. Who needs intervention? Who is on track? Who qualifies for supplemental services? The answer often comes down to whether they are above or below the threshold.</p>
+<p>Third, comparing subgroups. Achievement gap reporting by race, income, disability status, or English learner status is almost always done with proficiency rates.</p>
+<p>Proficiency rates are simple and intuitive, and that is a real strength. But simple does not always mean accurate. Here is what happens under the surface.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="the-funhouse-mirror" class="slide level2" data-runner="Part 1 · Proficiency Rates">
+<h2>The Funhouse Mirror</h2>
+<div class="title-rule">
+
+</div>
+<div class="slide-quote">
+Viewing school performance through proficiency rates is like looking in a funhouse mirror. The answers about growth and equity are “at best distorted and at worst just wrong.”
+<div class="slide-quote-source">
+— Andrew Ho, Harvard Graduate School of Education
+</div>
+</div>
+<div class="q-roadmap tight" style="margin-top:14px;">
+<div class="q-rm-row">
+<div class="q-rm-num">
+1
+</div>
+<div class="q-rm-text">
+<strong>Arbitrary cut scores</strong> — the threshold is a political choice, not a scientific one
+</div>
+</div>
+<div class="q-rm-row">
+<div class="q-rm-num">
+2
+</div>
+<div class="q-rm-text">
+<strong>Distorted growth</strong> — small score changes create the illusion of meaningful gains
+</div>
+</div>
+<div class="q-rm-row">
+<div class="q-rm-num">
+3
+</div>
+<div class="q-rm-text">
+<strong>Misreading achievement gaps</strong> — gap trends depend on where groups sit relative to the threshold
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>Andrew Ho is a measurement expert at Harvard’s Graduate School of Education, and his critique is the required reading this week. He describes proficiency rates as viewing school performance through a funhouse mirror. The image is recognizable and related to reality, but it is distorted, and sometimes the distortion is severe enough to mislead.</p>
+<p>In his words, the answers proficiency rates give about growth and equity are “at best distorted and at worst just wrong.”</p>
+<p>He identifies three specific problems, and we walk through each one.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="problem-1-arbitrary-cut-scores" class="slide level2" data-runner="Part 1 · Proficiency Rates">
+<h2>Problem 1: Arbitrary Cut Scores</h2>
+<div class="title-rule">
+
+</div>
+
+<img data-src="images/threshold_comparison.png" alt="Two histograms of the same reading-score distribution. With a lower cut score, 62% of students are proficient; with a higher cut score, 31% are." class="r-stretch"><div class="closing-line">
+Same students, same test. The only thing that changed is where we drew the line.
+</div>
+<div class="deck-note">
+On the recording’s Mississippi example, the verified figures are: the 2002 state test reported 84% of fourth graders proficient in reading, while NAEP reported 18% (1998) and 21% (2013). By 2015 the NAEP figure was 26%.
+</div>
+<aside class="notes">
+<p>[CORRECTION vs.&nbsp;recording] The Spring figure rendered 74%/26% while the narration says 62%/31%. This figure is regenerated so it renders the narrated 62% and 31% (cut values 37.65 and 44.0 on the simulated distribution). The narration’s Mississippi example also needs care: it says “in 2015, 87% state vs 21% NAEP.” Verified: NAEP 2015 Mississippi grade 4 reading was 26% at/above Proficient (21% is the 2013 figure), and the documented state-vs-NAEP contrast is the 2002 MCT at 84% vs NAEP 18% in 1998 (Education Trust). The slide carries a student-visible note with the verified numbers.</p>
+<p>Problem one: the cut score is arbitrary.</p>
+<p>This is a distribution of reading scores: the same students, the same test. The only thing that changes between the two panels is where we draw the proficiency line. With the lower threshold, 62% of students are proficient. Move it up, and only 31% are. Same kids, same test, different headline.</p>
+<p>The process for setting cut scores is what Ho calls “an overwrought, judgmental, and ultimately political process.” Each state sets its own standards, which is why proficiency rates are not comparable across states.</p>
+<p>Mississippi is the standard example: its state test reported 84% of fourth graders proficient or above in reading while the national NAEP assessment put the figure at 18%. Same children. The difference is entirely about where each test drew the line.</p>
+<p>So when someone says “70% of our students are proficient,” the first question to ask is: proficient by whose definition?</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="problem-2-distorted-growth" class="slide level2" data-runner="Part 1 · Proficiency Rates">
+<h2>Problem 2: Distorted Growth</h2>
+<div class="title-rule">
+
+</div>
+
+<img data-src="images/distorted_growth.png" alt="Two overlapping score distributions for Year 1 and Year 2. The curve shifts right by two points, but the proficiency rate rises from 44% to 56%: an 11 percentage-point swing." class="r-stretch"><div class="closing-line">
+When students cluster near the threshold, small gains produce large proficiency swings. The reverse is also true.
+</div>
+<aside class="notes">
+<p>Problem two: proficiency rates distort the appearance of growth.</p>
+<p>Here we have a distribution of scores in Year 1 and Year 2. There has been a small, real improvement: the curve shifted right by about 2 points. Modest. But the proficiency rate jumped 11 percentage points, from 44% to 56%. That looks like a dramatic improvement. It is not. The actual learning gain was small.</p>
+<p>Why does this happen? The cut score sits near the peak of the distribution, where students are most densely clustered. A tiny nudge in scores pushes a large number of students across the line.</p>
+<p>Now flip it around. A school where most students are well above or well below the threshold could make real, meaningful improvements and see zero change in proficiency rates, because none of those students crossed the line. The metric is blind to any movement that does not cross the threshold.</p>
+<p>This is why you cannot use proficiency rates to measure growth. They are a snapshot with a built-in distortion.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="problem-3-misreading-achievement-gaps" class="slide level2" data-runner="Part 1 · Proficiency Rates">
+<h2>Problem 3: Misreading Achievement Gaps</h2>
+<div class="title-rule">
+
+</div>
+
+<img data-src="images/gap_illusion.png" alt="Two panels showing Groups A and B in Year 1 and Year 2. Both distributions shift right by three points, but Group A's proficiency rises 16% to 28% while Group B's rises 50% to 67%, widening the proficiency gap from 34 to 38 points." class="r-stretch"><div class="closing-line">
+Both groups improved equally on the actual test. Proficiency rates tell a different story.
+</div>
+<aside class="notes">
+<p>Problem three, and this one is the most counterintuitive: proficiency rates can make achievement gaps look like they are narrowing when they are not, or widening when they are not.</p>
+<p>Two groups, A and B. Both improved by the same amount on the actual test: their distributions shifted right by three points each.</p>
+<p>But Group A’s proficiency rate went from 16% to 28%, while Group B’s went from 50% to 67%. Group B’s rate jumped about four percentage points more, and the gap between the two groups widened from 34 to 38 percentage points, even though both groups improved equally.</p>
+<p>Why? Group B was centered right at the cut score, where students are most densely clustered, so a small shift moved more of them across the line. Group A sat further from the threshold, with fewer students near the line.</p>
+<p>If you track disparities across student groups using only proficiency rates, you might celebrate progress that is not real or flag problems that do not exist. The gaps you see in proficiency rates are partly a statistical artifact of where each group sits relative to the cut score.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-3" class="slide level2 cfu-slide" data-runner="PlayPosit Question 1">
+<h2></h2>
+<div class="cfu-frame">
+<div class="cfu-eyebrow">
+PlayPosit Question 1
+</div>
+<h2 class="cfu-prompt">
+A district reports that its math proficiency rate rose from 48% to 63% in two years, while a neighboring district’s rate stayed flat at 82%. A school board member concludes the first district is improving faster. What is the most likely problem with this conclusion?
+</h2>
+<ol class="cfu-options" type="A">
+<li>
+The first district probably changed its cut score
+</li>
+<li>
+Schools near 50% proficiency show larger swings from small score changes — the improvement may be exaggerated
+</li>
+<li>
+The second district’s scores actually went down
+</li>
+<li>
+Proficiency rates can’t be compared across districts
+</li>
+</ol>
+</div>
+<aside class="notes">
+<p>A district reports that its math proficiency rate rose from 48% to 63% in two years, while a neighboring district’s rate stayed flat at 82%. A school board member concludes the first district is improving faster. What is the most likely problem with this conclusion?</p>
+<p>The answer is B. Schools near 50% proficiency show larger swings from small score changes, so the improvement may be exaggerated. This is the distorted-growth problem: when proficiency rates are near 50%, even modest real improvement can produce large apparent gains. The neighboring district at 82% could be making similar actual gains and showing no movement, because few of its students are near the threshold.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-4" class="slide level2 divider" data-runner="">
+<h2></h2>
+<div class="divider-content">
+<div class="divider-eyebrow">
+Part 2
+</div>
+<div class="divider-title">
+Scaled and Standardized Scores
+</div>
+<div class="divider-rule">
+
+</div>
+</div>
+</section>
+<section id="scaled-scores-the-full-picture" class="slide level2" data-runner="Part 2 · Scaled and Standardized Scores">
+<h2>Scaled Scores: The Full Picture</h2>
+<div class="title-rule">
+
+</div>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p><img data-src="images/score_distribution.png" alt="Histogram of the full reading-score distribution with the mean of 40.0 and standard deviation of 7.9 annotated."></p>
+</div><div class="column" style="width:40%;">
+<div class="box" style="margin-top:6px;">
+<div class="box-title">
+Proficiency Rate
+</div>
+<div class="box-body">
+“62% met the standard”<br>One number, information lost
+</div>
+</div>
+<div class="box" style="margin-top:12px;">
+<div class="box-title">
+Scaled Score
+</div>
+<div class="box-body">
+Mean = 40.0, SD = 7.9<br>Full distribution preserved
+</div>
+</div>
+<div class="box grey" style="margin-top:12px;">
+<div class="box-title">
+Also available
+</div>
+<div class="box-body">
+Sub-scores by content area and item-level data
+</div>
+</div>
+</div></div>
+<div class="deck-note">
+Sub-scores (for example, vocabulary vs.&nbsp;comprehension) can pinpoint where students are struggling. This is what you’ve been using all semester: <code>regress</code> with a mean reading scale score as the outcome.
+</div>
+<aside class="notes">
+<p>[CORRECTION vs.&nbsp;recording] The Spring sidebar hard-coded “62% met the standard” and Mean 40.1 / SD 8.0 while its figure rendered 40.0 / 7.9. The sidebar now states exactly what the figure renders: Mean 40.0, SD 7.9, and 62% at or above the same cut used on the arbitrary-cut-scores slide. These values are not narrated, so nothing conflicts with the recording.</p>
+<p>If proficiency rates are the funhouse mirror, what is the real mirror?</p>
+<p>The first alternative is the one you have been using all semester: scaled scores. A scaled score is the continuous number a student earns on the test. On the ECLS-K reading assessment, that is roughly a 20-to-70 scale. In the Florida district data, it was the mean reading scale score.</p>
+<p>Instead of compressing every student into proficient or not proficient, scaled scores preserve the full distribution. You can see improvement at the bottom. You can see whether high-performing students are being challenged. No information is thrown away. When you regress a mean reading score on SES, the regression uses every point of variation in that scale; it does not care about a threshold.</p>
+<p>One more thing worth knowing: you do not have to limit yourself to the overall summative score. Many assessments report sub-scores by content area, and some provide item-level data. For administrators this can be more actionable than a single number: if overall reading is flat but the comprehension sub-score is declining, that tells you where to focus instructional support.</p>
+<p>The limitation of scaled scores is that they are test-specific. A score of 41 on the ECLS-K reading assessment means nothing on a state math test. You cannot compare scores across different tests, or even across years if the scale changes. That is where standardized scores come in.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="standardized-scores-apples-to-apples" class="slide level2" data-runner="Part 2 · Scaled and Standardized Scores">
+<h2>Standardized Scores: Apples to Apples</h2>
+<div class="title-rule">
+
+</div>
+
+<img data-src="images/standardized_convergence.png" alt="Diagram showing three different test scales (ECLS-K reading 20 to 70, state reading 100 to 500, state math 150 to 600) all converging by arrows into one standardized z-score scale with mean 0 and standard deviation 1." class="r-stretch"><div class="note-box">
+<p><strong>Recall:</strong> z = (score − mean) / SD<br> <strong>Kraft (2020) benchmarks are in SD units:</strong> small &lt; 0.05, medium 0.05–0.20, large &gt; 0.20</p>
+</div>
+<aside class="notes">
+<p>[CORRECTION vs.&nbsp;recording] The Spring slide and the narration state the Kraft benchmarks as “medium ≈ 0.10–0.20.” The course’s own Kraft reference table says small &lt; 0.05, medium 0.05–0.20, large &gt; 0.20 (“unusually effective: verify carefully”). The slide now shows the reference-table thresholds. The module-number callback labels (“Module 7,” “Module 9”) are also removed.</p>
+<p>You have already seen standardized scores: z-scores. You transform any score by subtracting the mean and dividing by the standard deviation. The result has a mean of zero and a standard deviation of one.</p>
+<p>Why is that useful? Because now you can compare across tests. A student half a standard deviation above the mean in reading is performing at a similar relative level as one half a standard deviation above the mean in math, even though the raw scales are completely different.</p>
+<p>This is also where effect sizes come from. When a study reports that a program “improved reading by 0.15 standard deviations,” that is a standardized-score comparison. The Kraft benchmarks — small below 0.05, medium from 0.05 to 0.20, large above 0.20 — only make sense because the scores are standardized.</p>
+<p>For administrators, standardized scores are the common language of education research. If you are reading a study or comparing results across programs, this is the metric that makes apples-to-apples comparison possible.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="same-question-different-score" class="slide level2" data-runner="Part 2 · Scaled and Standardized Scores">
+<h2>Same Question, Different Score</h2>
+<div class="title-rule">
+
+</div>
+<table class="fin-table" style="max-width:860px;">
+<tbody><tr>
+<th style="text-align:left;">
+&nbsp;
+</th>
+<th>
+Proficiency (LPM)
+</th>
+<th>
+Scaled Score
+</th>
+<th>
+Standardized Score
+</th>
+</tr>
+<tr>
+<td class="fl">
+Program
+</td>
+<td>
+0.08**<br><span style="color:var(--text-muted);">(0.02)</span>
+</td>
+<td>
+3.2**<br><span style="color:var(--text-muted);">(0.9)</span>
+</td>
+<td>
+0.18**<br><span style="color:var(--text-muted);">(0.05)</span>
+</td>
+</tr>
+<tr>
+<td class="fl">
+SES
+</td>
+<td>
+0.15***<br><span style="color:var(--text-muted);">(0.01)</span>
+</td>
+<td>
+4.8***<br><span style="color:var(--text-muted);">(0.3)</span>
+</td>
+<td>
+0.27***<br><span style="color:var(--text-muted);">(0.02)</span>
+</td>
+</tr>
+<tr>
+<td class="fl">
+R²
+</td>
+<td>
+0.05
+</td>
+<td>
+0.14
+</td>
+<td>
+0.14
+</td>
+</tr>
+<tr>
+<td class="fl">
+N
+</td>
+<td>
+2,500
+</td>
+<td>
+2,500
+</td>
+<td>
+2,500
+</td>
+</tr>
+</tbody></table>
+<div class="deck-note">
+Illustrative values for a hypothetical reading intervention (simulated for teaching, as noted in the recording). Same program, same students, three different stories. Which you report depends on your audience: school board → proficiency, researchers → standardized, internal planning → scaled.
+</div>
+<aside class="notes">
+<p>Here is where it comes together: same program, same students, three different ways to report the result. The narration discloses that these are made-up numbers for a hypothetical reading intervention, and the slide keeps that labeling.</p>
+<p>This table shows the estimated effect of a hypothetical reading intervention using three different outcome measures. In the first column, a linear probability model: the outcome is whether the student is proficient, zero or one. The program coefficient is 0.08, an 8 percentage-point increase in the probability of proficiency.</p>
+<p>In the second column, the outcome is the scaled score, and the coefficient is 3.2 points. In the third, the outcome is standardized, and the coefficient is 0.18 standard deviations.</p>
+<p>Are these contradictory? No.&nbsp;It is the same effect through three different lenses. But notice the R-squared values. The proficiency model explains much less variance, 0.05 against 0.14, because it threw information away: everyone above and below the cut score got compressed to a zero or a one.</p>
+<p>Which do you report? It depends on the audience. For a school board that wants a clear bottom line, the proficiency rate is the most interpretable. For researchers who need comparability, standardized scores. For internal planning where precision matters, scaled scores. Know which one you are looking at, and why.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-5" class="slide level2 cfu-slide" data-runner="PlayPosit Question 2">
+<h2></h2>
+<div class="cfu-frame">
+<div class="cfu-eyebrow">
+PlayPosit Question 2
+</div>
+<h2 class="cfu-prompt">
+A regression estimates that a tutoring program increases math achievement by 0.25 standard deviations. Using Kraft’s (2020) benchmarks, how would you describe this effect?
+</h2>
+<ol class="cfu-options" type="A">
+<li>
+Very small — likely not meaningful
+</li>
+<li>
+Small to medium — meaningful for a single program
+</li>
+<li>
+Large — unusually effective
+</li>
+<li>
+Can’t determine without knowing the raw score change
+</li>
+</ol>
+<div class="cfu-foot">
+Note: the recording states the answer is B; the correct answer is C. Kraft’s benchmarks classify effects above 0.20 SD as large.
+</div>
+</div>
+<aside class="notes">
+<p>[CORRECTION vs.&nbsp;recording] The recording keys this question as B (“small to medium”) at about 20:37 on the trimmed video. That is incorrect by the course’s own Kraft table: effects above 0.20 SD are large, so 0.25 SD is “large — unusually effective.” The key is now C, the PlayPosit question is rekeyed to match, and the slide carries a student-visible note. The stem also drops the Spring module-number reference.</p>
+<p>A regression estimates that a tutoring program increases math achievement by 0.25 standard deviations. Using Kraft’s benchmarks, how would you describe this effect?</p>
+<p>The answer is C: large, unusually effective. Kraft’s benchmarks for education interventions put medium at 0.05 to 0.20 standard deviations, and anything above 0.20 in the large range. A 0.25 SD effect from a single tutoring program is an unusually strong result, and Kraft’s own advice for effects that size is to verify carefully.</p>
+<p>Notice that you can only make this judgment because the effect is in standardized units. If someone said “the program raised scores by 4 points,” you would have no idea whether that is a lot or a little without knowing the scale and the standard deviation of the test.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-6" class="slide level2 divider" data-runner="">
+<h2></h2>
+<div class="divider-content">
+<div class="divider-eyebrow">
+Part 3
+</div>
+<div class="divider-title">
+Value-Added and Growth
+</div>
+<div class="divider-rule">
+
+</div>
+</div>
+</section>
+<section id="what-is-value-added" class="slide level2" data-runner="Part 3 · Value-Added and Growth">
+<h2>What Is Value-Added?</h2>
+<div class="title-rule">
+
+</div>
+
+<img data-src="images/vam_concept.png" alt="Scatter plot of actual scores against predicted scores with a dashed predicted-equals-actual line. One highlighted point sits well above the line: predicted 39, actual 47, a value-added of plus 8." class="r-stretch"><div class="closing-line">
+This is regression. The residual — the gap between predicted and actual — is the value added.
+</div>
+<aside class="notes">
+<p>Now our third section. Proficiency rates, scaled scores, and standardized scores all describe how students performed at one point in time. They are snapshots. But leaders care about growth: is this school actually helping students learn more than they would have otherwise?</p>
+<p>Value-added measures try to answer that question, and the idea builds directly on regression.</p>
+<p>Start with what you would predict a student will score based on their characteristics: demographics, prior achievement, maybe school and neighborhood factors. That is your regression prediction. Then look at what the student actually scored. The difference between predicted and actual is the value added.</p>
+<p>If a school’s students consistently score higher than predicted, that school has positive value-added. If they consistently score below predicted, negative value-added.</p>
+<p>This is not a new statistical technique. It is the regression you already know. The residual, the gap between the line and the dot, is what we could not explain with our variables. Value-added says: maybe the school explains some of that residual.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="vam-the-promise-and-the-problems" class="slide level2" data-runner="Part 3 · Value-Added and Growth">
+<h2>VAM: The Promise and the Problems</h2>
+<div class="title-rule">
+
+</div>
+<div class="box-grid cols-2">
+<div class="box">
+<div class="box-title">
+The Promise
+</div>
+<div class="box-body">
+<ul>
+<li>
+Fairer to high-poverty schools (adjusts for student characteristics)
+</li>
+<li>
+Captures growth, not just levels
+</li>
+<li>
+Identifies unusually effective schools and teachers
+</li>
+<li>
+Uses the full score distribution
+</li>
+</ul>
+</div>
+</div>
+<div class="box orange">
+<div class="box-title">
+The Problems
+</div>
+<div class="box-body">
+<ul>
+<li>
+Estimates are volatile (ratings swing year to year)
+</li>
+<li>
+Results depend on model choices (which controls are included)
+</li>
+<li>
+Small classes amplify noise
+</li>
+<li>
+Score inflation (Koretz): “gains 3–6× larger than real learning improvements”
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="closing-line">
+You don’t need to build a VAM. You need to know the limitations when someone else does.
+</div>
+<aside class="notes">
+<p>Value-added has real appeal. It adjusts for student characteristics, so it is fairer to high-poverty schools. It captures growth rather than just levels. It uses the full score distribution. And it can help identify schools or teachers who are unusually effective, or who need more support.</p>
+<p>But there are serious problems. First, the estimates are volatile. A teacher’s value-added rating can swing substantially from one year to the next with no change in their actual teaching, and small class sizes amplify the noise.</p>
+<p>Second, results depend heavily on which variables are in the model. Different control variables can produce different rankings. As you have seen, adding or removing a predictor changes the other coefficients.</p>
+<p>Third, and this is Daniel Koretz’s central warning, linked as an optional reading this week: when test scores become high-stakes targets, the scores become less trustworthy. Schools and teachers face enormous pressure to raise scores, and the result is what Koretz calls score inflation: gains on high-stakes tests that are, in his estimation, three to six times as large as real gains in learning.</p>
+<p>You do not need to build a value-added model. But as a leader, you need to understand what someone is claiming when they say they have measured school effectiveness or teacher value-added, and you need to know the limitations.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="approach-1-controlling-for-baseline-achievement" class="slide level2" data-runner="Part 3 · Value-Added and Growth">
+<h2>Approach 1: Controlling for Baseline Achievement</h2>
+<div class="title-rule">
+
+</div>
+<div class="eq-card">
+Reading (Spring) &nbsp;=&nbsp; β₀ &nbsp;+&nbsp; β₁(SES) &nbsp;+&nbsp; β₂(Reading, Fall) &nbsp;+&nbsp; ε
+<div class="eq-note">
+↑ &nbsp;Lagged achievement — the baseline score
+</div>
+</div>
+<div style="font-size:0.72em; line-height:1.55;">
+<strong>What this does:</strong>
+<ul>
+<li>
+The same <code>regress</code> command you’ve been running — one more variable on the right-hand side
+</li>
+<li>
+Accounts for where each student started — coefficients now represent associations beyond baseline
+</li>
+<li>
+R² jumps dramatically, because prior achievement is a very strong predictor
+</li>
+<li>
+Adding a strong predictor reshapes what the other coefficients mean
+</li>
+</ul>
+</div>
+<div class="note-box">
+If your data include a baseline score, seriously consider using it.
+</div>
+<aside class="notes">
+<p>Two practical approaches to modeling growth, and both are things you can implement yourself.</p>
+<p>The first: if you have access to a prior test score, add it as a control variable in your regression. That is the whole move. The same regress command, with one more variable on the right-hand side.</p>
+<p>The equation should look familiar. Spring reading score as the outcome, predicted by SES, and now also by the fall reading score: the baseline. That baseline variable is called lagged achievement. It captures where the student started.</p>
+<p>Why does this matter? Because controlling for where students started lets you get much closer to measuring growth. Once the baseline is in the model, the coefficients on your other variables represent their relationship with achievement beyond the starting point, which is more informative than their correlation with overall levels. It also improves the precision of the model, because baseline scores explain a large share of the variance.</p>
+<p>Most of the time, if you have access to a prior test or pre-test, you will want to include it. It is one of the most powerful things you can do to improve a model in education research.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="what-happens-when-you-add-a-baseline-score" class="slide level2" data-runner="Part 3 · Value-Added and Growth">
+<h2>What Happens When You Add a Baseline Score</h2>
+<div class="title-rule">
+
+</div>
+<div class="columns model-cols">
+<div class="column" style="width:50%;">
+<pre class="stata-out">Model A: No Baseline
+regress read_spring ses female poverty
+
+SES         <span class="hl">4.8***</span>  (0.3)
+Female      1.2*    (0.5)
+Poverty    -3.1***  (0.6)
+
+R²          <span class="hl">0.17</span>
+N           2,500</pre>
+</div><div class="column" style="width:50%;">
+<pre class="stata-out">Model B: With Baseline Score
+regress read_spring ses female poverty read_fall
+
+SES         <span class="hl">1.9***</span>  (0.2)
+Female      0.8**   (0.3)
+Poverty    -1.4***  (0.4)
+Read (Fall) 0.73*** (0.01)
+
+R²          <span class="hl">0.62</span>
+N           2,500</pre>
+</div></div>
+<div class="badge-row">
+<div class="badge-chip">
+R² jumps from .17 to .62
+</div>
+<div class="badge-chip">
+SES shrinks: 4.8 → 1.9
+</div>
+</div>
+<div class="deck-note">
+Illustrative values (simulated, as noted in the recording). * p&lt;0.05 &nbsp; ** p&lt;0.01 &nbsp; *** p&lt;0.001
+</div>
+<aside class="notes">
+<p>The recording discloses that these are simulated data, and the slide keeps that labeling. The pattern is what real data show.</p>
+<p>Look at the difference. On the left, the model without a baseline: predicting spring reading from SES, gender, and poverty. The R-squared is 0.17 and the SES coefficient is 4.8.</p>
+<p>On the right, we add the fall reading score. The R-squared jumps to 0.62: the baseline score alone explains about 45 percentage points of additional variation. That is a large improvement in model fit, and it is representative of the jumps you see in actual data.</p>
+<p>And look at what happened to SES. It dropped from 4.8 to 1.9. Some of what looked like an SES association was baseline achievement: higher-SES students started with higher scores, and that was driving part of the apparent SES-achievement relationship.</p>
+<p>The logic is one you have seen before: when you add a strong predictor, it reshapes what the other coefficients mean. The baseline score is usually the strongest predictor you can add.</p>
+<p>This is the simplest and most practical version of a growth model. Anyone with two time points of data can do it.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-7" class="slide level2 cfu-slide" data-runner="PlayPosit Question">
+<h2></h2>
+<div class="cfu-frame">
+<div class="cfu-eyebrow">
+PlayPosit Question
+</div>
+<h2 class="cfu-prompt">
+The table on screen shows two models predicting spring reading scores. When the fall reading score is added, the SES coefficient falls from 4.8 to 1.9. What best explains the change?
+</h2>
+<ol class="cfu-options" type="A">
+<li>
+Adding any variable to a regression mechanically shrinks the other coefficients
+</li>
+<li>
+Part of what looked like an SES–achievement relationship reflects that higher-SES students already had higher fall scores — the baseline now accounts for that
+</li>
+<li>
+SES is measured with more error in the second model
+</li>
+<li>
+The rise in R² forces the other coefficients toward zero
+</li>
+</ol>
+</div>
+<aside class="notes">
+<p>This question was added for this cohort and is not narrated in the recording; it pauses the video on the two-model table.</p>
+<p>When the fall reading score is added, the SES coefficient falls from 4.8 to 1.9. What best explains the change?</p>
+<p>The answer is B. Higher-SES students tend to start the year with higher scores. Once the model controls for where students started, the SES coefficient reflects the relationship with growth beyond that starting point, so it shrinks. Adding a variable does not mechanically shrink coefficients, which rules out A and D, and the SES measure itself is unchanged, which rules out C.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="approach-2-growth-as-the-outcome" class="slide level2" data-runner="Part 3 · Value-Added and Growth">
+<h2>Approach 2: Growth as the Outcome</h2>
+<div class="title-rule">
+
+</div>
+<div class="eq-card">
+<p>Growth (gain score) &nbsp;=&nbsp; Spring Score &nbsp;−&nbsp; Fall Score<br> Then: &nbsp; Growth &nbsp;=&nbsp; β₀ &nbsp;+&nbsp; β₁(SES) &nbsp;+&nbsp; β₂(Female) &nbsp;+&nbsp; ε</p>
+</div>
+<div class="box-grid cols-2" style="margin-top:14px;">
+<div class="box">
+<div class="box-title">
+Advantages
+</div>
+<div class="box-body">
+<ul>
+<li>
+Directly models who grew more
+</li>
+<li>
+Intuitive for stakeholders
+</li>
+<li>
+Easy to explain in a report
+</li>
+</ul>
+</div>
+</div>
+<div class="box orange">
+<div class="box-title">
+Tradeoffs
+</div>
+<div class="box-body">
+<ul>
+<li>
+Growth scores are noisier
+</li>
+<li>
+Regression to the mean: low scorers tend to “grow” more
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="closing-line">
+This difference score is called a <strong>gain score</strong>. Both approaches are legitimate: researchers prefer controlling for baseline; gain scores are common in practice.
+</div>
+<aside class="notes">
+<p>[CORRECTION vs.&nbsp;recording] Content addition: the slide now names the term “gain score” explicitly, which the syllabus promises for this module. The recording describes the same approach as “growth as the outcome” without using the term.</p>
+<p>The second approach is even more intuitive. Instead of controlling for the baseline, make the change itself the outcome. Subtract the fall score from the spring score, and that difference, the gain score, becomes your Y variable.</p>
+<p>Now your regression directly models who grew more. Did students with higher SES grow faster? Did students in the program grow more than students not in the program? The coefficients answer those questions directly.</p>
+<p>The advantage is clarity. “Who grew more” is a straightforward question for stakeholders, and it is easy to explain in a meeting or a report.</p>
+<p>The tradeoff: gain scores are noisier. Both the pre-test and the post-test have measurement error, and subtracting one from the other can amplify that noise. There is also a statistical pattern called regression to the mean, which we cover in a few slides: students who score very low on the pre-test tend to score higher on the post-test, and vice versa, even without any real change.</p>
+<p>Both approaches are legitimate, and researchers debate which is better. Controlling for the baseline is generally preferred in the research literature, but gain scores are common in practice.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="comparing-the-two-approaches" class="slide level2" data-runner="Part 3 · Value-Added and Growth">
+<h2>Comparing the Two Approaches</h2>
+<div class="title-rule">
+
+</div>
+<table class="fin-table" style="max-width:1000px;">
+<tbody><tr>
+<th style="text-align:left;">
+&nbsp;
+</th>
+<th style="text-align:left;">
+Control for Baseline
+</th>
+<th style="text-align:left;">
+Growth as Outcome
+</th>
+</tr>
+<tr>
+<td class="fl">
+What you model
+</td>
+<td style="text-align:left;">
+Spring score, with fall score as covariate
+</td>
+<td style="text-align:left;">
+Spring − Fall as the outcome
+</td>
+</tr>
+<tr>
+<td class="fl">
+Interpretation
+</td>
+<td style="text-align:left;">
+Association with achievement beyond baseline
+</td>
+<td style="text-align:left;">
+Association with growth
+</td>
+</tr>
+<tr>
+<td class="fl">
+Strengths
+</td>
+<td style="text-align:left;">
+Higher precision (R² jumps), widely used in research
+</td>
+<td style="text-align:left;">
+Intuitive, easy to explain to stakeholders
+</td>
+</tr>
+<tr>
+<td class="fl">
+Limitations
+</td>
+<td style="text-align:left;">
+Assumes baseline fully captures prior learning
+</td>
+<td style="text-align:left;">
+Noisier, regression to the mean
+</td>
+</tr>
+<tr>
+<td class="fl">
+When to use
+</td>
+<td style="text-align:left;">
+When you want to isolate associations of predictors
+</td>
+<td style="text-align:left;">
+When growth is the explicit question
+</td>
+</tr>
+</tbody></table>
+<div class="closing-line">
+Either way, it’s just regression. You already have the skills.
+</div>
+<aside class="notes">
+<p>This table lays out the comparison side by side: what you model, how you interpret it, the strengths, the limitations, and when each approach makes sense.</p>
+<p>The key point: they answer slightly different questions. Controlling for the baseline asks who scored higher than expected given where they started. Growth as the outcome asks who grew the most. Both are valuable, and the right choice depends on your research question.</p>
+<p>If you have two time points and are not sure which to use, controlling for the baseline is the safer default: better precision, and more widely accepted in research. If growth is explicitly your question and your audience needs an intuitive story, the gain-score approach works too.</p>
+<p>Either way, both of these are just regression. You already have the skills. The only thing that changes is what goes on the left-hand side of the equation, and what goes on the right.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-8" class="slide level2 cfu-slide" data-runner="PlayPosit Question 3">
+<h2></h2>
+<div class="cfu-frame">
+<div class="cfu-eyebrow">
+PlayPosit Question 3
+</div>
+<h2 class="cfu-prompt">
+A researcher adds students’ 3rd-grade math scores as a control variable to a regression predicting 4th-grade math scores. The R² increases from 0.20 to 0.58. What is the best interpretation?
+</h2>
+<ol class="cfu-options" type="A">
+<li>
+The regression is now biased because you’re controlling for the outcome
+</li>
+<li>
+Prior achievement is a very strong predictor of future achievement — the model now accounts for where students started
+</li>
+<li>
+The 3rd-grade scores caused the 4th-grade scores
+</li>
+<li>
+The model is overfitting the data
+</li>
+</ol>
+</div>
+<aside class="notes">
+<p>A researcher adds students’ 3rd-grade math scores as a control variable to a regression predicting 4th-grade math scores. The R-squared increases from 0.20 to 0.58. What is the best interpretation?</p>
+<p>The answer is B. Prior achievement is a very strong predictor of future achievement, and the model now accounts for where students started. The jump in R-squared tells you that a large share of the variation in 4th-grade scores is explained by how students performed in 3rd grade. That is not bias or overfitting. It is the baseline soaking up variance, which gives a more precise picture of what other factors contribute beyond the starting point.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-9" class="slide level2 divider" data-runner="">
+<h2></h2>
+<div class="divider-content">
+<div class="divider-eyebrow">
+Part 4
+</div>
+<div class="divider-title">
+Other Score Issues
+</div>
+<div class="divider-rule">
+
+</div>
+</div>
+</section>
+<section id="floor-and-ceiling-effects" class="slide level2" data-runner="Part 4 · Other Score Issues">
+<h2>Floor and Ceiling Effects</h2>
+<div class="title-rule">
+
+</div>
+
+<img data-src="images/floor_ceiling.png" alt="Two panels: a floor effect, where a too-hard test piles scores at the minimum, and a ceiling effect, where a too-easy test piles scores at the maximum. The pile-up regions beyond each boundary are shaded." class="r-stretch"><div class="closing-line">
+If a test is too easy or too hard for the population taking it, scores cluster at the boundary. Real differences are hidden, and growth cannot be accurately measured. Watch for this in district benchmark assessments and end-of-course exams.
+</div>
+<aside class="notes">
+<p>Three more things to know about test scores. Each comes up regularly, and each can mislead you if you are not watching for it.</p>
+<p>First: floor and ceiling effects. If a test is too hard for the students taking it, scores pile up at the bottom: a floor effect. If it is too easy, scores pile up at the top: a ceiling effect. Either way, the test cannot distinguish between students at the extremes.</p>
+<p>This matters for growth measurement. If your students are already near the top of the scale, you cannot measure further improvement, because the test has no room. If they are at the bottom, you cannot tell who is really struggling versus who just hit the minimum.</p>
+<p>Watch for this with district benchmark assessments and end-of-course exams. If the score distribution looks like it is being cut off at one end, the test may not be a good fit for your population.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="regression-to-the-mean" class="slide level2" data-runner="Part 4 · Other Score Issues">
+<h2>Regression to the Mean</h2>
+<div class="title-rule">
+
+</div>
+<div class="columns">
+<div class="column" style="width:58%;">
+<p><img data-src="images/rtm_scatter.png" alt="Scatter plot of post-test against pre-test scores. The fitted line is flatter than the dashed no-change line: low scorers appear to improve and high scorers appear to decline."></p>
+</div><div class="column" style="width:42%;">
+<div class="box" style="margin-top:10px;">
+<div class="box-title">
+Why it matters
+</div>
+<div class="box-body">
+<p>A low-performing school shows “improvement” after a new program is introduced.<br><br> Was it the program? Or were those extreme scores partly random, and due to bounce back?<br><br> Controlling for baseline achievement (Approach 1) helps: it accounts for where students started.</p>
+</div>
+</div>
+</div></div>
+<div class="closing-line">
+Every score has some randomness. Extreme scores tend to move toward the average on retest.
+</div>
+<aside class="notes">
+<p>Second: regression to the mean. This one is subtle but important, especially for program evaluation.</p>
+<p>Every test score has some randomness in it. A student might score unusually low on one test because they were tired, guessed poorly, or had a bad day. On the next test, that randomness is unlikely to repeat, so their score bounces back toward the average.</p>
+<p>Now imagine a school that scored unusually low last year. They implement a new reading program. This year, scores go up. Was it the program? Maybe. But some of that apparent improvement is regression to the mean: the extreme score was partly random, and it was due to bounce back regardless.</p>
+<p>This is exactly why controlling for baseline achievement helps. It accounts for where students started, so what is left over is more likely to reflect real change rather than statistical bounce.</p>
+<p>The takeaway: be cautious about attributing improvement to an intervention when the starting point was extreme. Some of that growth would have happened anyway.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="campbells-law-and-test-validity" class="slide level2" data-runner="Part 4 · Other Score Issues">
+<h2>Campbell’s Law and Test Validity</h2>
+<div class="title-rule">
+
+</div>
+<div class="slide-quote" style="font-size:0.72em;">
+“The more any quantitative social indicator is used for social decision-making, the more subject it will be to corruption pressures and the more apt it will be to distort and corrupt the social processes it is intended to monitor.”
+<div class="slide-quote-source">
+— Donald Campbell (1979)
+</div>
+</div>
+<div class="box-grid cols-2" style="margin-top:12px;">
+<div class="box">
+<div class="box-title">
+Validity
+</div>
+<div class="box-body">
+A test is valid when it measures what it claims to measure. The SAT is reliable — but it’s not a valid measure of cooking ability. When high stakes are attached, Campbell’s Law kicks in: scores become less valid as measures of actual learning.
+</div>
+</div>
+<div class="box grey">
+<div class="box-title">
+Test Bias
+</div>
+<div class="box-body">
+Different from measurement error. A biased test is like a broken scale — it will never give the right answer. Modern tests work hard to eliminate bias, but it’s worth asking about for any assessment.
+</div>
+</div>
+</div>
+<div class="closing-line">
+Koretz’s core argument: when test scores become high-stakes targets, the scores stop meaning what we think they mean.
+</div>
+<aside class="notes">
+<p>Third: Campbell’s Law. This is the theoretical foundation for Koretz’s argument about score inflation, and it is worth knowing by name.</p>
+<p>Donald Campbell wrote in 1979: the more any quantitative social indicator is used for social decision-making, the more subject it will be to corruption pressures, and the more apt it will be to distort and corrupt the social processes it is intended to monitor.</p>
+<p>In plain language: when you attach high stakes to a number, people optimize for the number rather than for what the number is supposed to measure. Test scores go up, but learning does not, because the scores stop being valid measures of learning.</p>
+<p>That brings us to validity. A test is valid when it measures what it claims to measure. The SAT is quite reliable — you would get a similar score on retakes — but it is not a valid measure of cooking ability. When schools narrow their curriculum to test prep, the test becomes a less valid measure of broad learning, even if it is still reliable.</p>
+<p>There is also test bias, which is different from measurement error. A biased test is like a broken scale: it will never give the right answer, no matter how many times you use it. Modern tests work hard to eliminate this, but it is always worth asking about.</p>
+<p>This connects directly to Koretz: when test scores become high-stakes targets, Campbell’s Law tells us the scores stop meaning what we think they mean. That is not a reason to abandon testing. It is a reason to interpret test data carefully.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-10" class="slide level2 divider" data-runner="">
+<h2></h2>
+<div class="divider-content">
+<div class="divider-eyebrow">
+Part 5
+</div>
+<div class="divider-title">
+Using Test Scores as a Leader
+</div>
+<div class="divider-rule">
+
+</div>
+</div>
+</section>
+<section id="what-to-ask-when-someone-hands-you-test-score-data" class="slide level2" data-runner="Part 5 · Using Test Scores as a Leader">
+<h2>What to Ask When Someone Hands You Test Score Data</h2>
+<div class="title-rule">
+
+</div>
+<div class="q-roadmap tight">
+<div class="q-rm-row">
+<div class="q-rm-num">
+1
+</div>
+<div class="q-rm-text">
+<strong>What type of score is this?</strong> Proficiency rate, scaled score, standardized, or growth?
+</div>
+</div>
+<div class="q-rm-row">
+<div class="q-rm-num">
+2
+</div>
+<div class="q-rm-text">
+<strong>Where’s the cut score?</strong> Who set it? Could a different threshold tell a different story?
+</div>
+</div>
+<div class="q-rm-row">
+<div class="q-rm-num">
+3
+</div>
+<div class="q-rm-text">
+<strong>What’s being compared?</strong> Snapshot (levels) or change over time (growth)?
+</div>
+</div>
+<div class="q-rm-row">
+<div class="q-rm-num">
+4
+</div>
+<div class="q-rm-text">
+<strong>What’s controlled for?</strong> Raw comparisons ignore student demographics. Has anyone adjusted?
+</div>
+</div>
+<div class="q-rm-row">
+<div class="q-rm-num">
+5
+</div>
+<div class="q-rm-text">
+<strong>Who’s missing?</strong> Are students or schools excluded from the data? Why?
+</div>
+</div>
+</div>
+<div class="closing-line">
+You don’t need to run the analysis. You need to ask the right questions.
+</div>
+<aside class="notes">
+<p>Bringing this together with something practical. You are going to encounter test score data constantly: in state accountability reports, program evaluations, grant applications, board presentations, news articles.</p>
+<p>You do not need to run the analysis yourself. But you need to ask the right questions. Here are five.</p>
+<p>One: what type of score is this? A proficiency rate, a scaled score, a standardized score, or a growth measure? Each tells a different story.</p>
+<p>Two: where is the cut score? If someone is reporting proficiency rates, who set the threshold, and could a different threshold produce a different picture?</p>
+<p>Three: what is being compared? A snapshot of performance at one point, or change over time? Across schools, across years, across subgroups?</p>
+<p>Four: what is controlled for? A raw comparison of average scores across schools ignores the fact that schools serve different populations. Has anyone adjusted for demographics or baseline achievement? If not, you are comparing inputs, not school quality.</p>
+<p>Five: who is missing? Are there students or schools excluded from the data? We talk more about this next module with survey data, but it is always worth asking.</p>
+<p>These five questions connect to the whole sequence: score types from today, control variables from the regression modules, critical reading throughout.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="common-misinterpretations-to-watch-for" class="slide level2" data-runner="Part 5 · Using Test Scores as a Leader">
+<h2>Common Misinterpretations to Watch For</h2>
+<div class="title-rule">
+
+</div>
+<div class="mi-pair">
+<div class="mi-claim">
+“Our proficiency rate went up 15 points — our teaching must be working.”
+</div>
+<div class="mi-resp">
+If students were near the threshold, the gain may be an artifact. If the cut score changed, it’s illusory.
+</div>
+</div>
+<div class="mi-pair">
+<div class="mi-claim">
+“School A outperforms School B — it must be a better school.”
+</div>
+<div class="mi-resp">
+Without adjusting for demographics and prior achievement, you’re comparing inputs, not school quality.
+</div>
+</div>
+<div class="mi-pair">
+<div class="mi-claim">
+“This teacher’s value-added score is low — they’re ineffective.”
+</div>
+<div class="mi-resp">
+VAM estimates are noisy and swing from year to year. One year of data is not enough.
+</div>
+</div>
+<div class="mi-pair">
+<div class="mi-claim">
+“Test scores went up, so students learned more.”
+</div>
+<div class="mi-resp">
+Koretz: score inflation. Gains on high-stakes tests can be 3–6× larger than actual learning gains.
+</div>
+</div>
+<aside class="notes">
+<p>A few claims you will hear that should trigger your critical thinking. The first one is the opening scenario: a 15-point proficiency jump.</p>
+<p>First: “Our proficiency rate went up 15 points — our teaching must be working.” Maybe. But if students were clustered near the threshold, that gain could be an artifact, and if the state changed its cut scores, the gain might be entirely illusory. You now have a much more specific set of questions to ask about that school than you did at the start of the lecture.</p>
+<p>Second: “School A outperforms School B — it must be a better school.” Without adjusting for student demographics and prior achievement, that comparison tells you about inputs, not about what the school is adding. That is exactly the problem value-added tries to solve; a resource like the Educational Opportunity Project’s data explorer shows how different school rankings look by snapshot versus by growth.</p>
+<p>Third: “This teacher’s value-added score is low — they’re ineffective.” Value-added estimates are noisy and can swing substantially from year to year with no change in teaching quality. One year of data is not enough, and ideally you want more than one year of pre-test data.</p>
+<p>Fourth, Koretz’s core insight: “Test scores went up, so students learned more.” Not necessarily. When tests are high-stakes, schools optimize for the test, and gains on high-stakes assessments can be three to six times larger than actual gains in learning.</p>
+<p>Each of these is something you might hear in a real meeting. Your job as a leader is to be the person who pauses and asks the right question.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-11" class="slide level2 cfu-slide" data-runner="PlayPosit Reflection">
+<h2></h2>
+<div class="cfu-frame">
+<div class="cfu-eyebrow">
+PlayPosit Reflection
+</div>
+<h2 class="cfu-prompt">
+Think about the ECLS-K reading score you’ve been using as the outcome variable in Applied Data Analysis Assignment 1. What type of test score is it — a proficiency measure, a scaled score, or a standardized score? Based on today’s lecture, is there anything about that score type you should acknowledge when interpreting your regression results?
+</h2>
+<div class="cfu-foot">
+Respond in 2–3 sentences.
+</div>
+</div>
+<aside class="notes">
+<p>This reflection replaces the recording’s capstone version; the video is trimmed before that narration, so the overlay stands on its own.</p>
+<p>Think about the ECLS-K reading score you have been using as the outcome variable in Applied Data Analysis Assignment 1. What type of test score is it: a proficiency measure, a scaled score, or a standardized score? Based on today’s lecture, is there anything about that score type you should acknowledge when interpreting your regression results?</p>
+<p>There is no right or wrong answer. The goal is to connect what we covered today to the models you are running this week.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="looking-ahead" class="slide level2" data-runner="Module 3">
+<h2>Looking Ahead</h2>
+<div class="title-rule">
+
+</div>
+<div class="note-box" style="text-align:center; font-size:0.8em;">
+<p><strong>Next module: Working with Survey Data</strong> — sampling, weighting, representativeness, and missing data</p>
+</div>
+<div style="font-size:0.74em; line-height:1.6; margin-top:26px;">
+<ul>
+<li>
+<strong>Applied Data Analysis Assignment 1</strong> is due at the end of this module.
+</li>
+<li>
+<strong>Research Critique 1</strong> is also due at the end of this module: a short critique of a published study that uses test scores as its outcome. Directions and the article are in the Assignments tab.
+</li>
+<li>
+The required reading, Ho’s critique of proficiency rates, is a five-minute read that pairs directly with Part 1 of this lecture.
+</li>
+</ul>
+</div>
+<aside class="notes">
+<p>To recap: proficiency rates are ubiquitous but misleading. They depend on arbitrary thresholds, distort the appearance of growth, and can misrepresent achievement gaps. Scaled scores preserve the full distribution. Standardized scores enable cross-test comparisons and connect to effect sizes. And when you want to measure growth, you can either control for a baseline score or use a gain score as your outcome: both are regression, and both build on skills you already have.</p>
+<p>Two deadlines close this module: Applied Data Analysis Assignment 1, and Research Critique 1, where you apply today’s material to a published study whose outcome is a test-score index. Next module is survey data: sampling, weighting, representativeness, and missing data.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<script>
+// Global footer overlay: reads data-runner from each slide section.
+// JS overlay rather than CSS absolute positioning, which gets clipped in fullscreen.
+document.addEventListener('DOMContentLoaded', function() {
+  var footer = document.createElement('div');
+  footer.id = 'global-runner';
+  document.querySelector('.reveal').appendChild(footer);
+
+  function updateRunner() {
+    var slide = Reveal.getCurrentSlide();
+    var runner = slide ? slide.getAttribute('data-runner') : '';
+    if (runner) {
+      footer.textContent = runner + '  |  Huffaker · EDA6427 · Module 3';
+      footer.style.display = 'block';
+    } else {
+      footer.style.display = 'none';
+    }
+  }
+
+  Reveal.on('slidechanged', updateRunner);
+  Reveal.on('ready', updateRunner);
+
+  // Reveal's 'ready' can fire before this listener attaches, which leaves the
+  // footer blank on load. Run once directly, and retry briefly if Reveal has
+  // not finished initialising yet.
+  if (typeof Reveal !== 'undefined' && Reveal.getCurrentSlide) {
+    updateRunner();
+  } else {
+    var tries = 0;
+    var t = setInterval(function() {
+      if (typeof Reveal !== 'undefined' && Reveal.getCurrentSlide) {
+        updateRunner(); clearInterval(t);
+      }
+      if (++tries > 40) clearInterval(t);
+    }, 50);
+  }
+});
+</script>
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="module_3_lecture_slides_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="module_3_lecture_slides_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="module_3_lecture_slides_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="module_3_lecture_slides_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="module_3_lecture_slides_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="module_3_lecture_slides_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="module_3_lecture_slides_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="module_3_lecture_slides_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="module_3_lecture_slides_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="module_3_lecture_slides_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1280,
+
+        height: 720,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 4.0e-2,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>
