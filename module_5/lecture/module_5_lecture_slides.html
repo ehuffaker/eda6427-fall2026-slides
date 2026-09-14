@@ -146,19 +146,6 @@ Module 5 &nbsp;·&nbsp; Recorded Lecture
 EDA6427 &nbsp;|&nbsp; Applied Education Policy Research
 </div>
 </div>
-<aside class="notes">
-<p>Welcome to Module 5. This lecture is about data that come in groups, and one common way to account for those groups: random effects.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="where-we-are" class="slide level2" data-runner="Module 5">
 <h2>Where We Are</h2>
@@ -200,19 +187,6 @@ Module 6
 </div>
 </div>
 </div>
-<aside class="notes">
-<p>In Module 4 we saw how the ECLS-K was collected. The study picked schools first and then sampled children within those schools. This week we look at what that grouping means for analysis, and in Module 6 we will look at a second approach, fixed effects.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="students-are-grouped" class="slide level2" data-runner="Part 1 · Data Come in Groups">
 <h2>Students Are Grouped</h2>
@@ -240,20 +214,6 @@ Classroom
 <div class="closing-line m5-center" style="text-align:center; margin-top:26px;">
 <strong>ECLS-K:</strong> 17,185 kindergartners in 1,218 schools
 </div>
-<aside class="notes">
-<p>Most education data are grouped. Students sit in classrooms, classrooms are in schools, and schools are in districts. The technical word for this is “nested”: students are nested within schools.</p>
-<p>The ECLS-K file you have been using is a good example. It has 17,185 kindergartners with spring reading scores, spread across 1,218 schools.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="why-students-in-the-same-school-are-alike" class="slide level2" data-runner="Part 1 · Data Come in Groups">
 <h2>Why Students in the Same School Are Alike</h2>
@@ -289,20 +249,6 @@ Tested the day after a long break
 <div class="closing-line m5-center" style="text-align:center; margin-top:40px;">
 Same teachers, same curriculum, same testing day, so their scores move together.
 </div>
-<aside class="notes">
-<p>Why does grouping matter? Picture three schools. School A spent weeks coaching every student for the test. School B had an ordinary year. School C gave the test the day after a long break.</p>
-<p>Students within each school share those experiences. They have the same teachers, the same curriculum, and even the same testing day. So their scores tend to move together. Two students from School A are likely to be more alike than a student from School A and a student from School C.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="section-1" class="slide level2 cfu-slide" data-runner="PlayPosit Question 1">
 <h2></h2>
@@ -328,20 +274,6 @@ They wouldn’t; students are independent
 </li>
 </ol>
 </div>
-<aside class="notes">
-<p>Answer the question on screen.</p>
-<p><em>(Answer reveal)</em> The answer is B. Shared teachers, curriculum, and school conditions make students in the same building more alike.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="two-extremes" class="slide level2" data-runner="Part 2 · How Much Do Schools Matter?">
 <h2>Two Extremes</h2>
@@ -354,19 +286,6 @@ They wouldn’t; students are independent
 <div class="closing-line m5-center" style="text-align:center;">
 Real schools fall in between.
 </div>
-<aside class="notes">
-<p>How much do schools matter? It helps to picture two extremes, using simulated data. On the left, students are sorted into schools, so each school’s scores sit at a different level. If you know a student’s school, you can make a good guess about their score. On the right, students are randomly assigned, so every school looks about the same, and knowing the school tells you nothing. Real schools fall somewhere in between.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="the-icc-how-much-lies-between-schools" class="slide level2" data-runner="Part 2 · How Much Do Schools Matter?">
 <h2>The ICC: How Much Lies Between Schools</h2>
@@ -382,20 +301,6 @@ Of all the differences in children’s reading scores, how much lies between sch
 <div class="closing-line m5-center" style="text-align:center; margin-top:28px;">
 Most differences are among children in the same school, but about a fifth lie between schools.
 </div>
-<aside class="notes">
-<p>We can put a number on where we fall, using the intraclass correlation, or ICC. The ICC answers one question: of all the differences in scores, how much lies between schools?</p>
-<p>For kindergarten reading in the ECLS-K, the ICC is 0.18. About 18 percent of the differences in reading scores lie between schools, and about 82 percent lie among children in the same school. So most of the differences are among classmates, but schools still account for about a fifth, which is enough that we cannot ignore it.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="section-2" class="slide level2 cfu-slide" data-runner="PlayPosit Question 2">
 <h2></h2>
@@ -421,20 +326,6 @@ About 10% of the differences lie between schools
 </li>
 </ol>
 </div>
-<aside class="notes">
-<p>Try this one.</p>
-<p><em>(Answer reveal)</em> The answer is D. An ICC of 0.10 means about 10 percent of the differences in satisfaction lie between schools, and most lie among teachers in the same school.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="why-ordinary-regression-is-too-sure-of-itself" class="slide level2" data-runner="Part 3 · Random Effects">
 <h2>Why Ordinary Regression Is Too Sure of Itself</h2>
@@ -450,19 +341,6 @@ Children in the same school partly repeat each other, because they share so much
 <div class="closing-line orange-line" style="margin-top:26px; padding:14px 24px; border-radius:10px;">
 So results look more certain than they really are: the standard errors come out too small.
 </div>
-<aside class="notes">
-<p>Why does this matter for the regressions we have been running? Ordinary regression treats every child as a separate, independent piece of information. But children in the same school partly repeat each other, because they share so much. So the data carry less independent information than it looks like, and ordinary regression ends up more confident than it should be. The standard errors come out too small, and results look more certain than they are.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="random-effects-in-one-picture" class="slide level2" data-runner="Part 3 · Random Effects">
 <h2>Random Effects in One Picture</h2>
@@ -475,20 +353,6 @@ So results look more certain than they really are: the standard errors come out 
 <div class="closing-line m5-center" style="text-align:center;">
 Each school gets its own starting point. We still estimate one overall relationship.
 </div>
-<aside class="notes">
-<p>Random effects is one way to fix this. This picture uses simulated data for three schools. The relationship between family background and reading has the same slope in each school, but each school’s line starts at a different height. Some schools start higher and some start lower.</p>
-<p>So each school gets its own starting point, and we still estimate one overall relationship.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="in-stata" class="slide level2" data-runner="Part 3 · Random Effects">
 <h2>In Stata</h2>
@@ -517,20 +381,6 @@ Group variable: <span class="hl">s2_id</span>                               Numb
 </div>
 </div>
 </div>
-<aside class="notes">
-<p>In Stata, the command is <code>mixed</code>. It looks like <code>regress</code>, with one addition. After the two vertical bars, we name the groups, here the school ID, <code>s2_id</code>. That part tells Stata that children are grouped within schools.</p>
-<p>The coefficient on SES reads just like regular regression: children one unit apart on the SES scale differ by about 5.2 points in spring reading, on average. After the model, <code>estat icc</code> gives you the ICC.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="section-3" class="slide level2 cfu-slide" data-runner="PlayPosit Question 3">
 <h2></h2>
@@ -556,20 +406,6 @@ Standardizes the reading score
 </li>
 </ol>
 </div>
-<aside class="notes">
-<p>One more.</p>
-<p><em>(Answer reveal)</em> The answer is A. The part after the two vertical bars tells Stata which groups the children belong to.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="when-you-read-a-study" class="slide level2" data-runner="Module 5">
 <h2>When You Read a Study</h2>
@@ -604,20 +440,6 @@ Applied Data Analysis Assignment 2 due
 </div>
 </div>
 </div>
-<aside class="notes">
-<p>When you read research, you will see this same idea under several names: multilevel models, hierarchical linear models or HLM, mixed models, and random effects. When you see one, ask two questions. What is grouped within what? And how much of the variation lies between the groups? You will practice this with Research Critique 2.</p>
-<p>Next, in Module 6, we look at fixed effects, another way to account for groups. And a reminder that Applied Data Analysis Assignment 2 is due at the end of this module.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 <script>
 // Global footer overlay: reads data-runner from each slide section.
 // JS overlay rather than CSS absolute positioning, which gets clipped in fullscreen.
